@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getAdminAccess } from "@/lib/adminAccess";
 import type { Session } from "@supabase/supabase-js";
 
 export function useAuth() {
@@ -21,13 +22,10 @@ export function useAuth() {
       }
 
       setLoading(true);
-      const { data } = await supabase.rpc("has_role", {
-        _user_id: s.user.id,
-        _role: "admin",
-      });
+      const status = await getAdminAccess().catch(() => null);
 
       if (!mounted) return;
-      setIsAdmin(data === true);
+      setIsAdmin(status?.isAdmin === true);
       setLoading(false);
     };
 
