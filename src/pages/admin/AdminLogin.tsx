@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import { getAdminAccess } from "@/lib/adminAccess";
 import { Shield, Loader2, ArrowLeft } from "lucide-react";
 
 type Mode = "login" | "signup" | "forgot-email" | "forgot-otp" | "forgot-reset";
@@ -23,13 +24,7 @@ export default function AdminLogin() {
   const nav = useNavigate();
   const { session, isAdmin, loading } = useAuth();
 
-  const checkIsAdmin = async (userId: string) => {
-    const { data } = await supabase.rpc("has_role", {
-      _user_id: userId,
-      _role: "admin",
-    });
-    return data === true;
-  };
+  const checkIsAdmin = async () => (await getAdminAccess()).isAdmin;
 
   useEffect(() => {
     document.title = "Admin Login | Navigator Series Book";
@@ -41,8 +36,8 @@ export default function AdminLogin() {
     // If logged in but not admin AND no admin exists yet -> auto-promote
     if (session && !isAdmin && adminExists === false) {
       (async () => {
-        const { data } = await supabase.rpc("promote_first_admin");
-        if (data === true) {
+        const status = await getAdminAccess("promote_first_admin").catch(() => null);
+        if (status?.isAdmin) {
           toast.success("আপনাকে first admin হিসেবে assign করা হয়েছে!");
           window.location.href = "/admin/dashboard";
         }
@@ -52,8 +47,8 @@ export default function AdminLogin() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await (supabase.rpc as any)("admin_exists");
-      setAdminExists(data === true);
+      const status = await getAdminAccess("admin_exists").catch(() => null);
+      setAdminExists(status?.adminExists === true);
     })();
   }, []);
 
@@ -71,7 +66,7 @@ export default function AdminLogin() {
       } else {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          if (await checkIsAdmin(user.id)) {
+          if (await checkIsAdmin()) {
             toast.success("Welcome admin");
             nav("/admin/dashboard");
           } else {
@@ -101,8 +96,8 @@ export default function AdminLogin() {
           session = signInData.session;
         }
         if (session) {
-          // Promote to admin via RPC (works even if trigger didn't fire)
-          await supabase.rpc("promote_first_admin");
+          // Promote to admin via service function (works even if database grants are misconfigured)
+          await getAdminAccess("promote_first_admin");
           toast.success("Admin একাউন্ট তৈরি হয়েছে!");
           // Force a hard reload so useAuth picks up the new role
           setTimeout(() => { window.location.href = "/admin/dashboard"; }, 600);
