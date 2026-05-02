@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getAdminAccess } from "@/lib/adminAccess";
 import { useAuth } from "./useAuth";
 
 export function usePermissions() {
@@ -13,8 +14,8 @@ export function usePermissions() {
       setLoading(false);
       return;
     }
-    const { data } = await supabase.rpc("get_user_menu_keys", { _user_id: session.user.id });
-    const keys = new Set<string>((data ?? []).map((r: any) => r.menu_key).filter(Boolean));
+    const status = await getAdminAccess().catch(() => null);
+    const keys = new Set<string>(status?.menuKeys ?? []);
     setMenuKeys(keys);
     setLoading(false);
   };
