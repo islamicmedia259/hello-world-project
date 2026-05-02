@@ -23,6 +23,14 @@ export default function AdminLogin() {
   const nav = useNavigate();
   const { session, isAdmin, loading } = useAuth();
 
+  const checkIsAdmin = async (userId: string) => {
+    const { data } = await supabase.rpc("has_role", {
+      _user_id: userId,
+      _role: "admin",
+    });
+    return data === true;
+  };
+
   useEffect(() => {
     document.title = "Admin Login | Navigator Series Book";
     if (loading) return;
@@ -44,11 +52,8 @@ export default function AdminLogin() {
 
   useEffect(() => {
     (async () => {
-      const { count } = await supabase
-        .from("user_roles")
-        .select("*", { count: "exact", head: true })
-        .eq("role", "admin");
-      setAdminExists((count ?? 0) > 0);
+      const { data } = await (supabase.rpc as any)("admin_exists");
+      setAdminExists(data === true);
     })();
   }, []);
 
@@ -66,13 +71,7 @@ export default function AdminLogin() {
       } else {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          const { data } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id)
-            .eq("role", "admin")
-            .maybeSingle();
-          if (data) {
+          if (await checkIsAdmin(user.id)) {
             toast.success("Welcome admin");
             nav("/admin/dashboard");
           } else {
