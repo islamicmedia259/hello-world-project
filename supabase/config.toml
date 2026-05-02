@@ -3,6 +3,9 @@ project_id = "hwesnqtnxuqruhzyjpuv"
 [functions.admin-password-reset]
 verify_jwt = false
 
+[functions.admin-access]
+verify_jwt = false
+
 [functions.user-password-reset]
 verify_jwt = false
 
