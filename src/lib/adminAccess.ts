@@ -12,14 +12,18 @@ async function getAdminAccessFallback(action: AdminAccessAction): Promise<AdminA
   const { data: { user } } = await supabase.auth.getUser();
 
   if (action === "admin_exists") {
-    const { data } = await supabase.rpc("admin_exists").catch(() => ({ data: false } as any));
-    return { isAdmin: false, adminExists: data === true, menuKeys: [] };
+    try {
+      const { data } = await (supabase.rpc as any)("admin_exists");
+      return { isAdmin: false, adminExists: data === true, menuKeys: [] };
+    } catch (_error) {
+      return { isAdmin: false, adminExists: false, menuKeys: [] };
+    }
   }
 
   if (!user) return { isAdmin: false, adminExists: false, menuKeys: [] };
 
   if (action === "promote_first_admin") {
-    const { data } = await supabase.rpc("promote_first_admin").catch(() => ({ data: false } as any));
+    const { data } = await (supabase.rpc as any)("promote_first_admin");
     if (data !== true) throw new Error("Admin promotion failed");
   }
 
