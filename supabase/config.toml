@@ -1,0 +1,13 @@
+project_id = "hwesnqtnxuqruhzyjpuv"
+
+[functions.admin-password-reset]
+verify_jwt = false
+
+[functions.user-password-reset]
+verify_jwt = false
+
+[functions.send-email]
+verify_jwt = false
+
+[functions.send-sms]
+verify_jwt = false
