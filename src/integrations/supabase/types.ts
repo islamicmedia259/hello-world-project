@@ -50,6 +50,8 @@ export type Database = {
           id: string
           is_active: boolean | null
           name: string
+          slide_direction: string | null
+          slide_speed_seconds: number | null
           slug: string | null
           sort_order: number | null
         }
@@ -58,6 +60,8 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           name: string
+          slide_direction?: string | null
+          slide_speed_seconds?: number | null
           slug?: string | null
           sort_order?: number | null
         }
@@ -66,6 +70,8 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           name?: string
+          slide_direction?: string | null
+          slide_speed_seconds?: number | null
           slug?: string | null
           sort_order?: number | null
         }
@@ -74,6 +80,7 @@ export type Database = {
       banners: {
         Row: {
           banner_category_id: string | null
+          category_id: string | null
           created_at: string
           ends_at: string | null
           id: string
@@ -88,6 +95,7 @@ export type Database = {
         }
         Insert: {
           banner_category_id?: string | null
+          category_id?: string | null
           created_at?: string
           ends_at?: string | null
           id?: string
@@ -102,6 +110,7 @@ export type Database = {
         }
         Update: {
           banner_category_id?: string | null
+          category_id?: string | null
           created_at?: string
           ends_at?: string | null
           id?: string
@@ -161,7 +170,9 @@ export type Database = {
           id: string
           image_url: string | null
           is_active: boolean | null
+          is_top: boolean | null
           name: string
+          show_on_home: boolean | null
           slug: string | null
           sort_order: number | null
           updated_at: string
@@ -172,7 +183,9 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          is_top?: boolean | null
           name: string
+          show_on_home?: boolean | null
           slug?: string | null
           sort_order?: number | null
           updated_at?: string
@@ -183,7 +196,9 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          is_top?: boolean | null
           name?: string
+          show_on_home?: boolean | null
           slug?: string | null
           sort_order?: number | null
           updated_at?: string
@@ -444,9 +459,11 @@ export type Database = {
           district: string | null
           email: string | null
           id: string
+          is_blocked: boolean | null
           name: string
           phone: string | null
           thana: string | null
+          total_spent: number | null
           updated_at: string
           user_id: string | null
         }
@@ -456,9 +473,11 @@ export type Database = {
           district?: string | null
           email?: string | null
           id?: string
+          is_blocked?: boolean | null
           name: string
           phone?: string | null
           thana?: string | null
+          total_spent?: number | null
           updated_at?: string
           user_id?: string | null
         }
@@ -468,9 +487,11 @@ export type Database = {
           district?: string | null
           email?: string | null
           id?: string
+          is_blocked?: boolean | null
           name?: string
           phone?: string | null
           thana?: string | null
+          total_spent?: number | null
           updated_at?: string
           user_id?: string | null
         }
@@ -481,19 +502,25 @@ export type Database = {
           created_at: string
           division: string | null
           id: string
+          is_active: boolean | null
           name: string
+          sort_order: number | null
         }
         Insert: {
           created_at?: string
           division?: string | null
           id?: string
+          is_active?: boolean | null
           name: string
+          sort_order?: number | null
         }
         Update: {
           created_at?: string
           division?: string | null
           id?: string
+          is_active?: boolean | null
           name?: string
+          sort_order?: number | null
         }
         Relationships: []
       }
@@ -667,16 +694,19 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          source: string | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          source?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          source?: string | null
         }
         Relationships: []
       }
@@ -797,6 +827,7 @@ export type Database = {
       orders: {
         Row: {
           address: string | null
+          assigned_to: string | null
           created_at: string
           customer_id: string | null
           customer_name: string | null
@@ -816,9 +847,11 @@ export type Database = {
           total: number
           transaction_id: string | null
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           address?: string | null
+          assigned_to?: string | null
           created_at?: string
           customer_id?: string | null
           customer_name?: string | null
@@ -838,9 +871,11 @@ export type Database = {
           total?: number
           transaction_id?: string | null
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           address?: string | null
+          assigned_to?: string | null
           created_at?: string
           customer_id?: string | null
           customer_name?: string | null
@@ -860,6 +895,7 @@ export type Database = {
           total?: number
           transaction_id?: string | null
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -873,29 +909,41 @@ export type Database = {
       }
       pages: {
         Row: {
+          column_group: string | null
           content: string | null
           created_at: string
           id: string
+          is_active: boolean | null
           is_published: boolean | null
+          meta_description: string | null
           slug: string
+          sort_order: number | null
           title: string
           updated_at: string
         }
         Insert: {
+          column_group?: string | null
           content?: string | null
           created_at?: string
           id?: string
+          is_active?: boolean | null
           is_published?: boolean | null
+          meta_description?: string | null
           slug: string
+          sort_order?: number | null
           title: string
           updated_at?: string
         }
         Update: {
+          column_group?: string | null
           content?: string | null
           created_at?: string
           id?: string
+          is_active?: boolean | null
           is_published?: boolean | null
+          meta_description?: string | null
           slug?: string
+          sort_order?: number | null
           title?: string
           updated_at?: string
         }
@@ -904,33 +952,42 @@ export type Database = {
       payment_methods: {
         Row: {
           account_number: string | null
+          account_type: string | null
           created_at: string
           id: string
           instructions: string | null
           is_active: boolean | null
+          is_default: boolean | null
           name: string
+          number: string | null
           sort_order: number | null
           type: string | null
           updated_at: string
         }
         Insert: {
           account_number?: string | null
+          account_type?: string | null
           created_at?: string
           id?: string
           instructions?: string | null
           is_active?: boolean | null
+          is_default?: boolean | null
           name: string
+          number?: string | null
           sort_order?: number | null
           type?: string | null
           updated_at?: string
         }
         Update: {
           account_number?: string | null
+          account_type?: string | null
           created_at?: string
           id?: string
           instructions?: string | null
           is_active?: boolean | null
+          is_default?: boolean | null
           name?: string
+          number?: string | null
           sort_order?: number | null
           type?: string | null
           updated_at?: string
@@ -1006,69 +1063,126 @@ export type Database = {
       pixels: {
         Row: {
           created_at: string
+          custom_url: string | null
+          device_target: string | null
           id: string
           is_active: boolean | null
           name: string
+          page_target: string | null
           pixel_id: string | null
+          placement: string | null
+          platform: string | null
           provider: string
           script: string | null
+          script_code: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
+          custom_url?: string | null
+          device_target?: string | null
           id?: string
           is_active?: boolean | null
           name: string
+          page_target?: string | null
           pixel_id?: string | null
+          placement?: string | null
+          platform?: string | null
           provider: string
           script?: string | null
+          script_code?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
+          custom_url?: string | null
+          device_target?: string | null
           id?: string
           is_active?: boolean | null
           name?: string
+          page_target?: string | null
           pixel_id?: string | null
+          placement?: string | null
+          platform?: string | null
           provider?: string
           script?: string | null
+          script_code?: string | null
           updated_at?: string
         }
         Relationships: []
       }
       popups: {
         Row: {
+          bg_color: string | null
           content: string | null
           created_at: string
+          cta_label: string | null
+          cta_url: string | null
           delay_seconds: number | null
+          description: string | null
+          end_at: string | null
+          frequency_hours: number | null
           id: string
           image_url: string | null
           is_active: boolean | null
           link_url: string | null
+          name: string | null
+          promo_code: string | null
+          sort_order: number | null
+          start_at: string | null
+          style: string | null
+          subtitle: string | null
+          text_color: string | null
           title: string | null
           trigger_type: string | null
           updated_at: string
         }
         Insert: {
+          bg_color?: string | null
           content?: string | null
           created_at?: string
+          cta_label?: string | null
+          cta_url?: string | null
           delay_seconds?: number | null
+          description?: string | null
+          end_at?: string | null
+          frequency_hours?: number | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
           link_url?: string | null
+          name?: string | null
+          promo_code?: string | null
+          sort_order?: number | null
+          start_at?: string | null
+          style?: string | null
+          subtitle?: string | null
+          text_color?: string | null
           title?: string | null
           trigger_type?: string | null
           updated_at?: string
         }
         Update: {
+          bg_color?: string | null
           content?: string | null
           created_at?: string
+          cta_label?: string | null
+          cta_url?: string | null
           delay_seconds?: number | null
+          description?: string | null
+          end_at?: string | null
+          frequency_hours?: number | null
           id?: string
           image_url?: string | null
           is_active?: boolean | null
           link_url?: string | null
+          name?: string | null
+          promo_code?: string | null
+          sort_order?: number | null
+          start_at?: string | null
+          style?: string | null
+          subtitle?: string | null
+          text_color?: string | null
           title?: string | null
           trigger_type?: string | null
           updated_at?: string
@@ -1307,12 +1421,16 @@ export type Database = {
           cost_price: number | null
           created_at: string
           description: string | null
+          discount_price: number | null
           gallery_urls: string[] | null
           id: string
           image_url: string | null
           images: string[] | null
           is_active: boolean | null
           is_featured: boolean | null
+          is_hot_deal: boolean | null
+          is_top_feature: boolean | null
+          is_top_selling: boolean | null
           name: string
           price: number
           sale_price: number | null
@@ -1332,12 +1450,16 @@ export type Database = {
           cost_price?: number | null
           created_at?: string
           description?: string | null
+          discount_price?: number | null
           gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
           images?: string[] | null
           is_active?: boolean | null
           is_featured?: boolean | null
+          is_hot_deal?: boolean | null
+          is_top_feature?: boolean | null
+          is_top_selling?: boolean | null
           name: string
           price?: number
           sale_price?: number | null
@@ -1357,12 +1479,16 @@ export type Database = {
           cost_price?: number | null
           created_at?: string
           description?: string | null
+          discount_price?: number | null
           gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
           images?: string[] | null
           is_active?: boolean | null
           is_featured?: boolean | null
+          is_hot_deal?: boolean | null
+          is_top_feature?: boolean | null
+          is_top_selling?: boolean | null
           name?: string
           price?: number
           sale_price?: number | null
@@ -1414,6 +1540,7 @@ export type Database = {
           display_name: string | null
           email: string | null
           id: string
+          is_active: boolean | null
           phone: string | null
           postal_code: string | null
           updated_at: string
@@ -1427,6 +1554,7 @@ export type Database = {
           display_name?: string | null
           email?: string | null
           id?: string
+          is_active?: boolean | null
           phone?: string | null
           postal_code?: string | null
           updated_at?: string
@@ -1440,6 +1568,7 @@ export type Database = {
           display_name?: string | null
           email?: string | null
           id?: string
+          is_active?: boolean | null
           phone?: string | null
           postal_code?: string | null
           updated_at?: string
@@ -1560,51 +1689,69 @@ export type Database = {
       site_settings: {
         Row: {
           address: string | null
+          api_keys: Json | null
+          app_store_url: string | null
           contact_email: string | null
           contact_phone: string | null
           created_at: string
           currency: string | null
+          dark_logo_url: string | null
           favicon_url: string | null
+          footer_text: string | null
           hero_subtitle: string | null
           hero_title: string | null
           home_reviews_enabled: boolean | null
           id: string
           logo_url: string | null
+          play_store_url: string | null
           site_name: string | null
           updated_at: string
           whatsapp_number: string | null
+          white_logo_url: string | null
         }
         Insert: {
           address?: string | null
+          api_keys?: Json | null
+          app_store_url?: string | null
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
           currency?: string | null
+          dark_logo_url?: string | null
           favicon_url?: string | null
+          footer_text?: string | null
           hero_subtitle?: string | null
           hero_title?: string | null
           home_reviews_enabled?: boolean | null
           id?: string
           logo_url?: string | null
+          play_store_url?: string | null
           site_name?: string | null
           updated_at?: string
           whatsapp_number?: string | null
+          white_logo_url?: string | null
         }
         Update: {
           address?: string | null
+          api_keys?: Json | null
+          app_store_url?: string | null
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
           currency?: string | null
+          dark_logo_url?: string | null
           favicon_url?: string | null
+          footer_text?: string | null
           hero_subtitle?: string | null
           hero_title?: string | null
           home_reviews_enabled?: boolean | null
           id?: string
           logo_url?: string | null
+          play_store_url?: string | null
           site_name?: string | null
           updated_at?: string
           whatsapp_number?: string | null
+          white_logo_url?: string | null
         }
         Relationships: []
       }
@@ -1632,6 +1779,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           platform: string
+          sort_order: number | null
           url: string
         }
         Insert: {
@@ -1639,6 +1787,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           platform: string
+          sort_order?: number | null
           url: string
         }
         Update: {
@@ -1646,6 +1795,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           platform?: string
+          sort_order?: number | null
           url?: string
         }
         Relationships: []
@@ -1699,19 +1849,25 @@ export type Database = {
           created_at: string
           district_id: string | null
           id: string
+          is_active: boolean | null
           name: string
+          sort_order: number | null
         }
         Insert: {
           created_at?: string
           district_id?: string | null
           id?: string
+          is_active?: boolean | null
           name: string
+          sort_order?: number | null
         }
         Update: {
           created_at?: string
           district_id?: string | null
           id?: string
+          is_active?: boolean | null
           name?: string
+          sort_order?: number | null
         }
         Relationships: [
           {
@@ -1825,6 +1981,18 @@ export type Database = {
         Returns: boolean
       }
       promote_first_admin: { Args: never; Returns: boolean }
+      track_order: {
+        Args: { _invoice: string; _phone?: string }
+        Returns: {
+          created_at: string
+          customer_name: string
+          id: string
+          invoice_no: string
+          phone: string
+          status: Database["public"]["Enums"]["order_status"]
+          total: number
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "user" | "staff"
