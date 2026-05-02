@@ -52,7 +52,7 @@ export default function AdminLogin() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.rpc("admin_exists");
+      const { data } = await (supabase.rpc as any)("admin_exists");
       setAdminExists(data === true);
     })();
   }, []);
