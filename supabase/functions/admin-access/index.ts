@@ -57,14 +57,19 @@ Deno.serve(async (req) => {
       .maybeSingle();
     const isAdmin = Boolean(roleRow);
 
-    const { data: permissionRows } = await admin
+    const { data: roleRows } = await admin
       .from("user_roles")
-      .select("role_permissions(permissions(menu_key))")
+      .select("role")
       .eq("user_id", user.id);
-
+    const roles = (roleRows ?? []).map((row) => row.role);
+    const { data: permissionRows } = roles.length
+      ? await admin
+        .from("role_permissions")
+        .select("permissions(menu_key)")
+        .in("role", roles)
+      : { data: [] };
     const menuKeys = Array.from(new Set(
       (permissionRows ?? [])
-        .flatMap((row: any) => row.role_permissions ?? [])
         .map((row: any) => row.permissions?.menu_key)
         .filter(Boolean)
     ));
