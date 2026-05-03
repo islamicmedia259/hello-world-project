@@ -85,14 +85,16 @@ export default function AdminUsers() {
       toast.success("User updated");
     } else {
       if (!form.email || !form.password) return toast.error("Email and password required");
-      const { data, error } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: { data: { display_name: form.display_name }, emailRedirectTo: window.location.origin },
+      const { data, error } = await supabase.functions.invoke("admin-create-user", {
+        body: {
+          email: form.email,
+          password: form.password,
+          display_name: form.display_name,
+          role: form.role,
+        },
       });
-      if (error) return toast.error(error.message);
-      if (data.user) {
-        await supabase.from("user_roles").insert({ user_id: data.user.id, role: form.role });
+      if (error || (data as any)?.error) {
+        return toast.error((data as any)?.error || error?.message || "Failed to create user");
       }
       toast.success("User created");
     }
