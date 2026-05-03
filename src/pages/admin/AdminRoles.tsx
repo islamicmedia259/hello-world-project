@@ -3,10 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
-type Role = "admin" | "staff" | "user";
+type Role = "admin" | "moderator" | "staff";
 type Permission = { id: string; key: string; label: string; description: string | null };
 
-const ROLES: Role[] = ["admin", "staff", "user"];
+const ROLES: Role[] = ["admin", "moderator", "staff"];
 
 export default function AdminRoles() {
   const [permissions, setPermissions] = useState<Permission[]>([]);
@@ -20,8 +20,8 @@ export default function AdminRoles() {
       supabase.from("permissions").select("*").order("key"),
       supabase.from("role_permissions").select("role, permission_id"),
     ]);
-    setPermissions((p.data ?? []) as Permission[]);
-    const m: Record<string, Set<string>> = { admin: new Set(), staff: new Set(), user: new Set() };
+    setPermissions((p.data ?? []) as unknown as Permission[]);
+    const m: Record<string, Set<string>> = { admin: new Set(), moderator: new Set(), staff: new Set() };
     (rp.data ?? []).forEach((r: any) => {
       if (m[r.role]) m[r.role].add(r.permission_id);
     });
@@ -95,7 +95,9 @@ export default function AdminRoles() {
             </tbody>
           </table>
         )}
-        <p className="text-xs text-muted-foreground mt-3">Admin role always has all permissions.</p>
+        <p className="text-xs text-muted-foreground mt-3">
+          Admin role always has all permissions. Customers automatically receive default storefront access (cart, orders, profile) — no permissions needed here.
+        </p>
       </div>
     </div>
   );
