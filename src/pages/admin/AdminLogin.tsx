@@ -24,7 +24,7 @@ export default function AdminLogin() {
   const nav = useNavigate();
   const { session, isAdmin, loading } = useAuth();
 
-  const checkIsAdmin = async () => (await getAdminAccess()).isAdmin;
+  const checkPanelAccess = async () => await getAdminAccess();
 
   useEffect(() => {
     document.title = "Admin Login | Navigator Series Book";
@@ -66,11 +66,13 @@ export default function AdminLogin() {
       } else {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          if (await checkIsAdmin()) {
-            toast.success("Welcome admin");
+          const access = await checkPanelAccess();
+          if (access.hasPanelAccess) {
+            const label = access.isAdmin ? "admin" : access.isModerator ? "moderator" : "staff";
+            toast.success(`Welcome ${label}`);
             nav("/admin/dashboard");
           } else {
-            toast.error("এই একাউন্ট admin নয়");
+            toast.error("এই একাউন্টে admin panel access নেই");
             await supabase.auth.signOut();
           }
         }
