@@ -74,7 +74,20 @@ Deno.serve(async (req) => {
         .filter(Boolean)
     ));
 
-    return json({ ok: true, isAdmin, adminExists: adminExists || isAdmin, menuKeys });
+    const isStaff = roles.includes("staff");
+    const isModerator = roles.includes("moderator");
+    const hasPanelAccess = isAdmin || isStaff || isModerator;
+
+    return json({
+      ok: true,
+      isAdmin,
+      isModerator,
+      isStaff,
+      hasPanelAccess,
+      roles,
+      adminExists: adminExists || isAdmin,
+      menuKeys,
+    });
   } catch (e: any) {
     return json({ ok: false, error: e?.message || "Server error" }, 500);
   }
