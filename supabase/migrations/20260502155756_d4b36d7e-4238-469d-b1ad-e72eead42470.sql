@@ -74,8 +74,15 @@ ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS address text;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_method text;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_status text DEFAULT 'pending';
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS notes text;
-UPDATE public.orders SET shipping_cost = COALESCE(shipping_cost, shipping_charge, 0) WHERE shipping_cost = 0;
-UPDATE public.orders SET discount_amount = COALESCE(discount_amount, discount, 0) WHERE discount_amount = 0;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'orders' AND column_name = 'shipping_charge') THEN
+    EXECUTE 'UPDATE public.orders SET shipping_cost = COALESCE(shipping_cost, shipping_charge, 0) WHERE shipping_cost = 0';
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'orders' AND column_name = 'discount') THEN
+    EXECUTE 'UPDATE public.orders SET discount_amount = COALESCE(discount_amount, discount, 0) WHERE discount_amount = 0';
+  END IF;
+END $$;
 
 -- PostgreSQL cannot change a function return type with CREATE OR REPLACE.
 -- Drop first so this migration works whether track_order currently returns jsonb or a table.
