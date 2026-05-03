@@ -91,7 +91,7 @@ const menu = [
 ];
 
 export default function AdminLayout() {
-  const { session, isAdmin, loading } = useAuth();
+  const { session, isAdmin, hasPanelAccess, loading } = useAuth();
   const { can, loading: permLoading } = usePermissions();
   const nav = useNavigate();
   const { pathname } = useLocation();
@@ -110,6 +110,7 @@ export default function AdminLayout() {
 
   if (loading || permLoading) return <div className="min-h-screen flex items-center justify-center bg-[#0b1020] text-slate-300">Loading...</div>;
   if (!session) return <Navigate to="/admin" replace />;
+  if (!hasPanelAccess) return <Navigate to="/admin" replace />;
 
   // Filter menu by permissions
   const visibleMenu = menu.filter((m: any) => {
