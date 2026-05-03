@@ -68,18 +68,66 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS play_store_url text;
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS app_store_url text;
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS api_keys jsonb DEFAULT '{}'::jsonb;
 
-CREATE OR REPLACE FUNCTION public.track_order(_invoice text, _phone text DEFAULT NULL)
-RETURNS TABLE(id uuid, invoice_no text, customer_name text, phone text, status public.order_status, total numeric, created_at timestamptz)
-LANGUAGE sql
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_cost numeric NOT NULL DEFAULT 0;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS discount_amount numeric NOT NULL DEFAULT 0;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS address text;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_method text;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_status text DEFAULT 'pending';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS notes text;
+UPDATE public.orders SET shipping_cost = COALESCE(shipping_cost, shipping_charge, 0) WHERE shipping_cost = 0;
+UPDATE public.orders SET discount_amount = COALESCE(discount_amount, discount, 0) WHERE discount_amount = 0;
+
+-- PostgreSQL cannot change a function return type with CREATE OR REPLACE.
+-- Drop first so this migration works whether track_order currently returns jsonb or a table.
+DROP FUNCTION IF EXISTS public.track_order(text, text);
+
+CREATE FUNCTION public.track_order(_invoice text, _phone text DEFAULT NULL)
+RETURNS jsonb
+LANGUAGE plpgsql
 STABLE
 SECURITY DEFINER
 SET search_path TO 'public'
 AS $$
-  SELECT o.id, o.invoice_no, o.customer_name, o.phone, o.status, o.total, o.created_at
-  FROM public.orders o
-  WHERE o.invoice_no = _invoice
-    AND (_phone IS NULL OR o.phone = _phone)
-  LIMIT 1
+DECLARE
+  o record;
+  items jsonb;
+BEGIN
+  SELECT id, invoice_no, customer_name, phone, address, status, total, shipping_cost, discount_amount, payment_method, payment_status, created_at, notes
+  INTO o
+  FROM public.orders
+  WHERE invoice_no = _invoice
+    AND (_phone IS NULL OR regexp_replace(COALESCE(phone, ''), '\D', '', 'g') = regexp_replace(_phone, '\D', '', 'g'))
+  LIMIT 1;
+
+  IF o IS NULL THEN
+    RETURN NULL;
+  END IF;
+
+  SELECT COALESCE(jsonb_agg(jsonb_build_object(
+    'product_name', oi.product_name,
+    'unit_price', oi.unit_price,
+    'quantity', oi.quantity
+  )), '[]'::jsonb)
+  INTO items
+  FROM public.order_items oi
+  WHERE oi.order_id = o.id;
+
+  RETURN jsonb_build_object(
+    'invoice_no', o.invoice_no,
+    'customer_name', o.customer_name,
+    'phone', o.phone,
+    'address', o.address,
+    'status', o.status,
+    'total', o.total,
+    'shipping_cost', o.shipping_cost,
+    'discount_amount', o.discount_amount,
+    'payment_method', o.payment_method,
+    'payment_status', o.payment_status,
+    'created_at', o.created_at,
+    'notes', o.notes,
+    'items', items
+  );
+END;
 $$;
 
 GRANT EXECUTE ON FUNCTION public.track_order(text, text) TO anon, authenticated;
