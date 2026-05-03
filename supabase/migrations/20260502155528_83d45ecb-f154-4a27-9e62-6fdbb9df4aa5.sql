@@ -1,11 +1,15 @@
 DO $$
 BEGIN
-  CREATE TYPE public.app_role AS ENUM ('admin', 'user', 'staff');
+  DO $idem$ BEGIN
+CREATE TYPE public.app_role AS ENUM ('admin', 'user', 'staff');
+EXCEPTION WHEN duplicate_object THEN NULL; END $idem$;
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 DO $$
 BEGIN
-  CREATE TYPE public.order_status AS ENUM ('pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'incomplete', 'processing', 'on_the_way', 'on_hold', 'in_courier', 'completed');
+  DO $idem$ BEGIN
+CREATE TYPE public.order_status AS ENUM ('pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'incomplete', 'processing', 'on_the_way', 'on_hold', 'in_courier', 'completed');
+EXCEPTION WHEN duplicate_object THEN NULL; END $idem$;
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
@@ -146,11 +150,51 @@ DROP POLICY IF EXISTS "Anyone creates subscribers" ON public.newsletter_subscrib
 DROP POLICY IF EXISTS "Anyone creates contact messages" ON public.contact_messages;
 DROP POLICY IF EXISTS "Admins manage permissions" ON public.permissions;
 DROP POLICY IF EXISTS "Admins manage role permissions" ON public.role_permissions;
-CREATE POLICY "Users read own profile" ON public.profiles FOR SELECT TO authenticated USING (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')); CREATE POLICY "Users update own profile" ON public.profiles FOR UPDATE TO authenticated USING (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')) WITH CHECK (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')); CREATE POLICY "Users insert own profile" ON public.profiles FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin'));
-CREATE POLICY "Users see own roles" ON public.user_roles FOR SELECT TO authenticated USING (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')); CREATE POLICY "Admins manage roles" ON public.user_roles TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
-CREATE POLICY "Anyone reads public settings" ON public.site_settings FOR SELECT USING (true); CREATE POLICY "Anyone reads public catalog" ON public.categories FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads public subcategories" ON public.subcategories FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads public childcategories" ON public.childcategories FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads public brands" ON public.brands FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads colors" ON public.colors FOR SELECT USING (true); CREATE POLICY "Anyone reads sizes" ON public.sizes FOR SELECT USING (true); CREATE POLICY "Anyone reads models" ON public.models FOR SELECT USING (true); CREATE POLICY "Anyone reads products" ON public.products FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads product options" ON public.product_colors FOR SELECT USING (true); CREATE POLICY "Anyone reads product sizes" ON public.product_sizes FOR SELECT USING (true); CREATE POLICY "Anyone reads product models" ON public.product_models FOR SELECT USING (true); CREATE POLICY "Anyone reads variants" ON public.product_variants FOR SELECT USING (true); CREATE POLICY "Anyone reads banners" ON public.banners FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads banner categories" ON public.banner_categories FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads pages" ON public.pages FOR SELECT USING (is_published = true); CREATE POLICY "Anyone reads payment methods" ON public.payment_methods FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads shipping" ON public.shipping_charges FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads product shipping" ON public.product_shipping_charges FOR SELECT USING (true); CREATE POLICY "Anyone reads variant shipping" ON public.variant_shipping_charges FOR SELECT USING (true); CREATE POLICY "Anyone reads shipping zones" ON public.shipping_zones FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads districts" ON public.districts FOR SELECT USING (true); CREATE POLICY "Anyone reads thanas" ON public.thanas FOR SELECT USING (true); CREATE POLICY "Anyone reads zone districts" ON public.shipping_zone_districts FOR SELECT USING (true); CREATE POLICY "Anyone reads popups" ON public.popups FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads social links" ON public.social_links FOR SELECT USING (is_active = true); CREATE POLICY "Anyone reads home reviews" ON public.home_reviews FOR SELECT USING (is_active = true);
-CREATE POLICY "Anyone creates customers" ON public.customers FOR INSERT WITH CHECK (true); CREATE POLICY "Anyone creates orders" ON public.orders FOR INSERT WITH CHECK (true); CREATE POLICY "Anyone creates order items" ON public.order_items FOR INSERT WITH CHECK (true); CREATE POLICY "Anyone creates pending payments" ON public.pending_payments FOR INSERT WITH CHECK (true); CREATE POLICY "Anyone creates subscribers" ON public.newsletter_subscribers FOR INSERT WITH CHECK (true); CREATE POLICY "Anyone creates contact messages" ON public.contact_messages FOR INSERT WITH CHECK (true);
-CREATE POLICY "Admins manage permissions" ON public.permissions TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin')); CREATE POLICY "Admins manage role permissions" ON public.role_permissions TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
+DROP POLICY IF EXISTS "Users read own profile" ON public.profiles;
+CREATE POLICY "Users read own profile" ON public.profiles FOR SELECT TO authenticated USING (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')); DROP POLICY IF EXISTS "Users update own profile" ON public.profiles;
+CREATE POLICY "Users update own profile" ON public.profiles FOR UPDATE TO authenticated USING (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')) WITH CHECK (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')); DROP POLICY IF EXISTS "Users insert own profile" ON public.profiles;
+CREATE POLICY "Users insert own profile" ON public.profiles FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin'));
+DROP POLICY IF EXISTS "Users see own roles" ON public.user_roles;
+CREATE POLICY "Users see own roles" ON public.user_roles FOR SELECT TO authenticated USING (auth.uid() = user_id OR public.has_role(auth.uid(), 'admin')); DROP POLICY IF EXISTS "Admins manage roles" ON public.user_roles;
+CREATE POLICY "Admins manage roles" ON public.user_roles TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
+DROP POLICY IF EXISTS "Anyone reads public settings" ON public.site_settings;
+CREATE POLICY "Anyone reads public settings" ON public.site_settings FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads public catalog" ON public.categories;
+CREATE POLICY "Anyone reads public catalog" ON public.categories FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads public subcategories" ON public.subcategories;
+CREATE POLICY "Anyone reads public subcategories" ON public.subcategories FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads public childcategories" ON public.childcategories;
+CREATE POLICY "Anyone reads public childcategories" ON public.childcategories FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads public brands" ON public.brands;
+CREATE POLICY "Anyone reads public brands" ON public.brands FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads colors" ON public.colors;
+CREATE POLICY "Anyone reads colors" ON public.colors FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads sizes" ON public.sizes;
+CREATE POLICY "Anyone reads sizes" ON public.sizes FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads models" ON public.models;
+CREATE POLICY "Anyone reads models" ON public.models FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads products" ON public.products;
+CREATE POLICY "Anyone reads products" ON public.products FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads product options" ON public.product_colors;
+CREATE POLICY "Anyone reads product options" ON public.product_colors FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads product sizes" ON public.product_sizes;
+CREATE POLICY "Anyone reads product sizes" ON public.product_sizes FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads product models" ON public.product_models;
+CREATE POLICY "Anyone reads product models" ON public.product_models FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads variants" ON public.product_variants;
+CREATE POLICY "Anyone reads variants" ON public.product_variants FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads banners" ON public.banners;
+CREATE POLICY "Anyone reads banners" ON public.banners FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads banner categories" ON public.banner_categories;
+CREATE POLICY "Anyone reads banner categories" ON public.banner_categories FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads pages" ON public.pages;
+CREATE POLICY "Anyone reads pages" ON public.pages FOR SELECT USING (is_published = true); DROP POLICY IF EXISTS "Anyone reads payment methods" ON public.payment_methods;
+CREATE POLICY "Anyone reads payment methods" ON public.payment_methods FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads shipping" ON public.shipping_charges;
+CREATE POLICY "Anyone reads shipping" ON public.shipping_charges FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads product shipping" ON public.product_shipping_charges;
+CREATE POLICY "Anyone reads product shipping" ON public.product_shipping_charges FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads variant shipping" ON public.variant_shipping_charges;
+CREATE POLICY "Anyone reads variant shipping" ON public.variant_shipping_charges FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads shipping zones" ON public.shipping_zones;
+CREATE POLICY "Anyone reads shipping zones" ON public.shipping_zones FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads districts" ON public.districts;
+CREATE POLICY "Anyone reads districts" ON public.districts FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads thanas" ON public.thanas;
+CREATE POLICY "Anyone reads thanas" ON public.thanas FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads zone districts" ON public.shipping_zone_districts;
+CREATE POLICY "Anyone reads zone districts" ON public.shipping_zone_districts FOR SELECT USING (true); DROP POLICY IF EXISTS "Anyone reads popups" ON public.popups;
+CREATE POLICY "Anyone reads popups" ON public.popups FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads social links" ON public.social_links;
+CREATE POLICY "Anyone reads social links" ON public.social_links FOR SELECT USING (is_active = true); DROP POLICY IF EXISTS "Anyone reads home reviews" ON public.home_reviews;
+CREATE POLICY "Anyone reads home reviews" ON public.home_reviews FOR SELECT USING (is_active = true);
+DROP POLICY IF EXISTS "Anyone creates customers" ON public.customers;
+CREATE POLICY "Anyone creates customers" ON public.customers FOR INSERT WITH CHECK (true); DROP POLICY IF EXISTS "Anyone creates orders" ON public.orders;
+CREATE POLICY "Anyone creates orders" ON public.orders FOR INSERT WITH CHECK (true); DROP POLICY IF EXISTS "Anyone creates order items" ON public.order_items;
+CREATE POLICY "Anyone creates order items" ON public.order_items FOR INSERT WITH CHECK (true); DROP POLICY IF EXISTS "Anyone creates pending payments" ON public.pending_payments;
+CREATE POLICY "Anyone creates pending payments" ON public.pending_payments FOR INSERT WITH CHECK (true); DROP POLICY IF EXISTS "Anyone creates subscribers" ON public.newsletter_subscribers;
+CREATE POLICY "Anyone creates subscribers" ON public.newsletter_subscribers FOR INSERT WITH CHECK (true); DROP POLICY IF EXISTS "Anyone creates contact messages" ON public.contact_messages;
+CREATE POLICY "Anyone creates contact messages" ON public.contact_messages FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Admins manage permissions" ON public.permissions;
+CREATE POLICY "Admins manage permissions" ON public.permissions TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin')); DROP POLICY IF EXISTS "Admins manage role permissions" ON public.role_permissions;
+CREATE POLICY "Admins manage role permissions" ON public.role_permissions TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
 
 GRANT USAGE ON SCHEMA public TO anon, authenticated; GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) TO anon, authenticated; GRANT EXECUTE ON FUNCTION public.get_user_menu_keys(uuid) TO anon, authenticated; GRANT EXECUTE ON FUNCTION public.current_user_is_admin() TO anon, authenticated; GRANT EXECUTE ON FUNCTION public.admin_exists() TO anon, authenticated; GRANT EXECUTE ON FUNCTION public.promote_first_admin() TO authenticated;
 INSERT INTO public.site_settings (site_name)

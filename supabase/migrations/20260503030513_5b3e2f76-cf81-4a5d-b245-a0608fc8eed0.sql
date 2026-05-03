@@ -17,6 +17,7 @@ END;
 $$;
 
 DROP TRIGGER IF EXISTS trg_profiles_default_role ON public.profiles;
+DROP TRIGGER IF EXISTS trg_profiles_default_role ON public.profiles;
 CREATE TRIGGER trg_profiles_default_role
 AFTER INSERT ON public.profiles
 FOR EACH ROW EXECUTE FUNCTION public.assign_default_customer_role();
