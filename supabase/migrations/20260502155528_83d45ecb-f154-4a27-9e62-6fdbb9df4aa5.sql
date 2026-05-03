@@ -84,6 +84,7 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT 
 ALTER TABLE public.user_roles ADD COLUMN IF NOT EXISTS user_id uuid;
 ALTER TABLE public.user_roles ADD COLUMN IF NOT EXISTS role public.app_role NOT NULL DEFAULT 'user';
 ALTER TABLE public.user_roles ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+CREATE UNIQUE INDEX IF NOT EXISTS user_roles_user_id_role_unique ON public.user_roles(user_id, role);
 ALTER TABLE public.categories ADD COLUMN IF NOT EXISTS is_active boolean DEFAULT true;
 ALTER TABLE public.subcategories ADD COLUMN IF NOT EXISTS is_active boolean DEFAULT true;
 ALTER TABLE public.childcategories ADD COLUMN IF NOT EXISTS is_active boolean DEFAULT true;
