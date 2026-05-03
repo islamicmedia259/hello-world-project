@@ -33,17 +33,20 @@ CREATE SCHEMA IF NOT EXISTS "public";
 -- Name: app_role; Type: TYPE; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 CREATE TYPE "public"."app_role" AS ENUM (
     'admin',
     'user',
     'staff'
 );
+EXCEPTION WHEN duplicate_object THEN NULL; END $idem$;
 
 
 --
 -- Name: order_status; Type: TYPE; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 CREATE TYPE "public"."order_status" AS ENUM (
     'pending',
     'confirmed',
@@ -57,6 +60,7 @@ CREATE TYPE "public"."order_status" AS ENUM (
     'in_courier',
     'completed'
 );
+EXCEPTION WHEN duplicate_object THEN NULL; END $idem$;
 
 
 --
@@ -365,7 +369,7 @@ SET default_table_access_method = "heap";
 -- Name: banner_categories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."banner_categories" (
+CREATE TABLE IF NOT EXISTS "public"."banner_categories" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "slug" "text" NOT NULL,
@@ -383,7 +387,7 @@ CREATE TABLE "public"."banner_categories" (
 -- Name: banners; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."banners" (
+CREATE TABLE IF NOT EXISTS "public"."banners" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "title" "text" NOT NULL,
     "subtitle" "text",
@@ -401,7 +405,7 @@ CREATE TABLE "public"."banners" (
 -- Name: brands; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."brands" (
+CREATE TABLE IF NOT EXISTS "public"."brands" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "slug" "text" NOT NULL,
@@ -414,7 +418,7 @@ CREATE TABLE "public"."brands" (
 -- Name: categories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."categories" (
+CREATE TABLE IF NOT EXISTS "public"."categories" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "slug" "text" NOT NULL,
@@ -430,7 +434,7 @@ CREATE TABLE "public"."categories" (
 -- Name: childcategories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."childcategories" (
+CREATE TABLE IF NOT EXISTS "public"."childcategories" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "subcategory_id" "uuid" NOT NULL,
     "name" "text" NOT NULL,
@@ -443,7 +447,7 @@ CREATE TABLE "public"."childcategories" (
 -- Name: colors; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."colors" (
+CREATE TABLE IF NOT EXISTS "public"."colors" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "hex_code" "text" DEFAULT '#000000'::"text" NOT NULL,
@@ -455,7 +459,7 @@ CREATE TABLE "public"."colors" (
 -- Name: contact_messages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."contact_messages" (
+CREATE TABLE IF NOT EXISTS "public"."contact_messages" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "email" "text",
@@ -471,7 +475,7 @@ CREATE TABLE "public"."contact_messages" (
 -- Name: coupon_products; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."coupon_products" (
+CREATE TABLE IF NOT EXISTS "public"."coupon_products" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "coupon_id" "uuid" NOT NULL,
     "product_id" "uuid" NOT NULL,
@@ -483,7 +487,7 @@ CREATE TABLE "public"."coupon_products" (
 -- Name: coupons; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."coupons" (
+CREATE TABLE IF NOT EXISTS "public"."coupons" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "code" "text" NOT NULL,
     "description" "text",
@@ -506,7 +510,7 @@ CREATE TABLE "public"."coupons" (
 -- Name: courier_shipments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."courier_shipments" (
+CREATE TABLE IF NOT EXISTS "public"."courier_shipments" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "order_id" "uuid" NOT NULL,
     "provider" "text" NOT NULL,
@@ -523,7 +527,7 @@ CREATE TABLE "public"."courier_shipments" (
 -- Name: customer_messages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."customer_messages" (
+CREATE TABLE IF NOT EXISTS "public"."customer_messages" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "customer_id" "uuid" NOT NULL,
     "sender" "text" NOT NULL,
@@ -540,7 +544,7 @@ ALTER TABLE ONLY "public"."customer_messages" REPLICA IDENTITY FULL;
 -- Name: customers; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."customers" (
+CREATE TABLE IF NOT EXISTS "public"."customers" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "phone" "text" NOT NULL,
     "name" "text",
@@ -559,7 +563,7 @@ CREATE TABLE "public"."customers" (
 -- Name: districts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."districts" (
+CREATE TABLE IF NOT EXISTS "public"."districts" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "sort_order" integer DEFAULT 0 NOT NULL,
@@ -573,7 +577,7 @@ CREATE TABLE "public"."districts" (
 -- Name: email_logs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."email_logs" (
+CREATE TABLE IF NOT EXISTS "public"."email_logs" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "recipient" "text" NOT NULL,
     "subject" "text",
@@ -588,7 +592,7 @@ CREATE TABLE "public"."email_logs" (
 -- Name: incomplete_orders; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."incomplete_orders" (
+CREATE TABLE IF NOT EXISTS "public"."incomplete_orders" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "phone" "text" NOT NULL,
     "customer_name" "text",
@@ -612,7 +616,7 @@ CREATE TABLE "public"."incomplete_orders" (
 -- Name: landing_pages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."landing_pages" (
+CREATE TABLE IF NOT EXISTS "public"."landing_pages" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "slug" "text" NOT NULL,
     "title" "text" NOT NULL,
@@ -664,7 +668,7 @@ CREATE TABLE "public"."landing_pages" (
 -- Name: models; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."models" (
+CREATE TABLE IF NOT EXISTS "public"."models" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "slug" "text" NOT NULL,
@@ -676,7 +680,7 @@ CREATE TABLE "public"."models" (
 -- Name: newsletter_subscribers; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."newsletter_subscribers" (
+CREATE TABLE IF NOT EXISTS "public"."newsletter_subscribers" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "email" "text" NOT NULL,
     "source" "text" DEFAULT 'popup'::"text",
@@ -688,7 +692,7 @@ CREATE TABLE "public"."newsletter_subscribers" (
 -- Name: notifications; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."notifications" (
+CREATE TABLE IF NOT EXISTS "public"."notifications" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "user_id" "uuid",
     "audience" "text" DEFAULT 'user'::"text" NOT NULL,
@@ -710,7 +714,7 @@ ALTER TABLE ONLY "public"."notifications" REPLICA IDENTITY FULL;
 -- Name: order_items; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."order_items" (
+CREATE TABLE IF NOT EXISTS "public"."order_items" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "order_id" "uuid" NOT NULL,
     "product_id" "uuid",
@@ -727,7 +731,7 @@ ALTER TABLE ONLY "public"."order_items" REPLICA IDENTITY FULL;
 -- Name: order_statuses; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."order_statuses" (
+CREATE TABLE IF NOT EXISTS "public"."order_statuses" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "key" "text" NOT NULL,
     "label" "text" NOT NULL,
@@ -742,7 +746,7 @@ CREATE TABLE "public"."order_statuses" (
 -- Name: orders; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."orders" (
+CREATE TABLE IF NOT EXISTS "public"."orders" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "invoice_no" "text" DEFAULT ("to_char"("now"(), 'YYMMDD'::"text") || "lpad"(("floor"(("random"() * (100000)::double precision)))::"text", 5, '0'::"text")) NOT NULL,
     "customer_name" "text" NOT NULL,
@@ -770,7 +774,7 @@ ALTER TABLE ONLY "public"."orders" REPLICA IDENTITY FULL;
 -- Name: pages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."pages" (
+CREATE TABLE IF NOT EXISTS "public"."pages" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "title" "text" NOT NULL,
     "slug" "text" NOT NULL,
@@ -788,7 +792,7 @@ CREATE TABLE "public"."pages" (
 -- Name: payment_methods; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."payment_methods" (
+CREATE TABLE IF NOT EXISTS "public"."payment_methods" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "number" "text" NOT NULL,
@@ -806,7 +810,7 @@ CREATE TABLE "public"."payment_methods" (
 -- Name: pending_payments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."pending_payments" (
+CREATE TABLE IF NOT EXISTS "public"."pending_payments" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "customer_name" "text" NOT NULL,
     "phone" "text" NOT NULL,
@@ -830,7 +834,7 @@ CREATE TABLE "public"."pending_payments" (
 -- Name: permissions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."permissions" (
+CREATE TABLE IF NOT EXISTS "public"."permissions" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "key" "text" NOT NULL,
     "label" "text" NOT NULL,
@@ -844,7 +848,7 @@ CREATE TABLE "public"."permissions" (
 -- Name: pixels; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."pixels" (
+CREATE TABLE IF NOT EXISTS "public"."pixels" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "platform" "text" DEFAULT 'custom'::"text" NOT NULL,
@@ -867,7 +871,7 @@ CREATE TABLE "public"."pixels" (
 -- Name: popups; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."popups" (
+CREATE TABLE IF NOT EXISTS "public"."popups" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "style" "text" DEFAULT 'image_link'::"text" NOT NULL,
@@ -896,7 +900,7 @@ CREATE TABLE "public"."popups" (
 -- Name: price_history; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."price_history" (
+CREATE TABLE IF NOT EXISTS "public"."price_history" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "product_id" "uuid" NOT NULL,
     "old_price" numeric NOT NULL,
@@ -912,7 +916,7 @@ CREATE TABLE "public"."price_history" (
 -- Name: product_colors; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."product_colors" (
+CREATE TABLE IF NOT EXISTS "public"."product_colors" (
     "product_id" "uuid" NOT NULL,
     "color_id" "uuid" NOT NULL
 );
@@ -922,7 +926,7 @@ CREATE TABLE "public"."product_colors" (
 -- Name: product_models; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."product_models" (
+CREATE TABLE IF NOT EXISTS "public"."product_models" (
     "product_id" "uuid" NOT NULL,
     "model_id" "uuid" NOT NULL
 );
@@ -932,7 +936,7 @@ CREATE TABLE "public"."product_models" (
 -- Name: product_shipping_charges; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."product_shipping_charges" (
+CREATE TABLE IF NOT EXISTS "public"."product_shipping_charges" (
     "product_id" "uuid" NOT NULL,
     "shipping_charge_id" "uuid" NOT NULL
 );
@@ -942,7 +946,7 @@ CREATE TABLE "public"."product_shipping_charges" (
 -- Name: product_sizes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."product_sizes" (
+CREATE TABLE IF NOT EXISTS "public"."product_sizes" (
     "product_id" "uuid" NOT NULL,
     "size_id" "uuid" NOT NULL
 );
@@ -952,7 +956,7 @@ CREATE TABLE "public"."product_sizes" (
 -- Name: product_variants; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."product_variants" (
+CREATE TABLE IF NOT EXISTS "public"."product_variants" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "product_id" "uuid" NOT NULL,
     "color_id" "uuid",
@@ -974,7 +978,7 @@ CREATE TABLE "public"."product_variants" (
 -- Name: products; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."products" (
+CREATE TABLE IF NOT EXISTS "public"."products" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "description" "text",
@@ -1014,7 +1018,7 @@ ALTER TABLE ONLY "public"."products" REPLICA IDENTITY FULL;
 -- Name: profiles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."profiles" (
+CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "user_id" "uuid" NOT NULL,
     "display_name" "text",
@@ -1034,7 +1038,7 @@ CREATE TABLE "public"."profiles" (
 -- Name: role_permissions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."role_permissions" (
+CREATE TABLE IF NOT EXISTS "public"."role_permissions" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "role" "public"."app_role" NOT NULL,
     "permission_id" "uuid" NOT NULL,
@@ -1046,7 +1050,7 @@ CREATE TABLE "public"."role_permissions" (
 -- Name: shipping_charges; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."shipping_charges" (
+CREATE TABLE IF NOT EXISTS "public"."shipping_charges" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "charge" numeric DEFAULT 0 NOT NULL,
@@ -1062,7 +1066,7 @@ CREATE TABLE "public"."shipping_charges" (
 -- Name: shipping_zone_districts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."shipping_zone_districts" (
+CREATE TABLE IF NOT EXISTS "public"."shipping_zone_districts" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "zone_id" "uuid" NOT NULL,
     "district_id" "uuid" NOT NULL,
@@ -1074,7 +1078,7 @@ CREATE TABLE "public"."shipping_zone_districts" (
 -- Name: shipping_zones; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."shipping_zones" (
+CREATE TABLE IF NOT EXISTS "public"."shipping_zones" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "description" "text",
@@ -1089,7 +1093,7 @@ CREATE TABLE "public"."shipping_zones" (
 -- Name: site_settings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."site_settings" (
+CREATE TABLE IF NOT EXISTS "public"."site_settings" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "site_name" "text" DEFAULT 'Navigator Series Book'::"text" NOT NULL,
     "logo_url" "text",
@@ -1127,7 +1131,7 @@ ALTER TABLE ONLY "public"."site_settings" REPLICA IDENTITY FULL;
 -- Name: sizes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."sizes" (
+CREATE TABLE IF NOT EXISTS "public"."sizes" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "sort_order" integer DEFAULT 0 NOT NULL,
@@ -1139,7 +1143,7 @@ CREATE TABLE "public"."sizes" (
 -- Name: social_links; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."social_links" (
+CREATE TABLE IF NOT EXISTS "public"."social_links" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "name" "text" NOT NULL,
     "icon_key" "text" DEFAULT 'facebook'::"text" NOT NULL,
@@ -1156,7 +1160,7 @@ CREATE TABLE "public"."social_links" (
 -- Name: subcategories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."subcategories" (
+CREATE TABLE IF NOT EXISTS "public"."subcategories" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "category_id" "uuid" NOT NULL,
     "name" "text" NOT NULL,
@@ -1169,7 +1173,7 @@ CREATE TABLE "public"."subcategories" (
 -- Name: thanas; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."thanas" (
+CREATE TABLE IF NOT EXISTS "public"."thanas" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "district_id" "uuid" NOT NULL,
     "name" "text" NOT NULL,
@@ -1184,7 +1188,7 @@ CREATE TABLE "public"."thanas" (
 -- Name: user_roles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."user_roles" (
+CREATE TABLE IF NOT EXISTS "public"."user_roles" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "user_id" "uuid" NOT NULL,
     "role" "public"."app_role" DEFAULT 'user'::"public"."app_role" NOT NULL,
@@ -1196,7 +1200,7 @@ CREATE TABLE "public"."user_roles" (
 -- Name: variant_shipping_charges; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE "public"."variant_shipping_charges" (
+CREATE TABLE IF NOT EXISTS "public"."variant_shipping_charges" (
     "variant_id" "uuid" NOT NULL,
     "shipping_charge_id" "uuid" NOT NULL
 );
@@ -1206,750 +1210,895 @@ CREATE TABLE "public"."variant_shipping_charges" (
 -- Name: banner_categories banner_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."banner_categories"
     ADD CONSTRAINT "banner_categories_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: banner_categories banner_categories_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."banner_categories"
     ADD CONSTRAINT "banner_categories_slug_key" UNIQUE ("slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: banners banners_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."banners"
     ADD CONSTRAINT "banners_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: brands brands_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."brands"
     ADD CONSTRAINT "brands_name_key" UNIQUE ("name");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: brands brands_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."brands"
     ADD CONSTRAINT "brands_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: brands brands_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."brands"
     ADD CONSTRAINT "brands_slug_key" UNIQUE ("slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: categories categories_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_name_key" UNIQUE ("name");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: categories categories_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_slug_key" UNIQUE ("slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: childcategories childcategories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."childcategories"
     ADD CONSTRAINT "childcategories_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: childcategories childcategories_subcategory_id_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."childcategories"
     ADD CONSTRAINT "childcategories_subcategory_id_slug_key" UNIQUE ("subcategory_id", "slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: colors colors_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."colors"
     ADD CONSTRAINT "colors_name_key" UNIQUE ("name");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: colors colors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."colors"
     ADD CONSTRAINT "colors_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: contact_messages contact_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."contact_messages"
     ADD CONSTRAINT "contact_messages_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: coupon_products coupon_products_coupon_id_product_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_coupon_id_product_id_key" UNIQUE ("coupon_id", "product_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: coupon_products coupon_products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: coupons coupons_code_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupons"
     ADD CONSTRAINT "coupons_code_key" UNIQUE ("code");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: coupons coupons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupons"
     ADD CONSTRAINT "coupons_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: courier_shipments courier_shipments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."courier_shipments"
     ADD CONSTRAINT "courier_shipments_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: customer_messages customer_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."customer_messages"
     ADD CONSTRAINT "customer_messages_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: customers customers_phone_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."customers"
     ADD CONSTRAINT "customers_phone_key" UNIQUE ("phone");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."customers"
     ADD CONSTRAINT "customers_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: districts districts_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."districts"
     ADD CONSTRAINT "districts_name_key" UNIQUE ("name");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: districts districts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."districts"
     ADD CONSTRAINT "districts_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: email_logs email_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."email_logs"
     ADD CONSTRAINT "email_logs_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: incomplete_orders incomplete_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."incomplete_orders"
     ADD CONSTRAINT "incomplete_orders_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: landing_pages landing_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."landing_pages"
     ADD CONSTRAINT "landing_pages_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: landing_pages landing_pages_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."landing_pages"
     ADD CONSTRAINT "landing_pages_slug_key" UNIQUE ("slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: models models_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."models"
     ADD CONSTRAINT "models_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: newsletter_subscribers newsletter_subscribers_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."newsletter_subscribers"
     ADD CONSTRAINT "newsletter_subscribers_email_key" UNIQUE ("email");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: newsletter_subscribers newsletter_subscribers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."newsletter_subscribers"
     ADD CONSTRAINT "newsletter_subscribers_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_items"
     ADD CONSTRAINT "order_items_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: order_statuses order_statuses_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_statuses"
     ADD CONSTRAINT "order_statuses_key_key" UNIQUE ("key");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: order_statuses order_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_statuses"
     ADD CONSTRAINT "order_statuses_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: orders orders_invoice_no_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."orders"
     ADD CONSTRAINT "orders_invoice_no_key" UNIQUE ("invoice_no");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."orders"
     ADD CONSTRAINT "orders_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: pages pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pages"
     ADD CONSTRAINT "pages_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: pages pages_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pages"
     ADD CONSTRAINT "pages_slug_key" UNIQUE ("slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: payment_methods payment_methods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."payment_methods"
     ADD CONSTRAINT "payment_methods_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: pending_payments pending_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pending_payments"
     ADD CONSTRAINT "pending_payments_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: permissions permissions_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."permissions"
     ADD CONSTRAINT "permissions_key_key" UNIQUE ("key");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: permissions permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."permissions"
     ADD CONSTRAINT "permissions_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: pixels pixels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pixels"
     ADD CONSTRAINT "pixels_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: popups popups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."popups"
     ADD CONSTRAINT "popups_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: price_history price_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."price_history"
     ADD CONSTRAINT "price_history_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_colors product_colors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_colors"
     ADD CONSTRAINT "product_colors_pkey" PRIMARY KEY ("product_id", "color_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_models product_models_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_models"
     ADD CONSTRAINT "product_models_pkey" PRIMARY KEY ("product_id", "model_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_shipping_charges product_shipping_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_shipping_charges"
     ADD CONSTRAINT "product_shipping_charges_pkey" PRIMARY KEY ("product_id", "shipping_charge_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_sizes product_sizes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_sizes"
     ADD CONSTRAINT "product_sizes_pkey" PRIMARY KEY ("product_id", "size_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_variants product_variants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: profiles profiles_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_user_id_key" UNIQUE ("user_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: profiles profiles_user_id_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_user_id_unique" UNIQUE ("user_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: role_permissions role_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."role_permissions"
     ADD CONSTRAINT "role_permissions_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: role_permissions role_permissions_role_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."role_permissions"
     ADD CONSTRAINT "role_permissions_role_permission_id_key" UNIQUE ("role", "permission_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_charges shipping_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_charges"
     ADD CONSTRAINT "shipping_charges_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_zone_districts shipping_zone_districts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_zone_districts shipping_zone_districts_zone_id_district_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_zone_id_district_id_key" UNIQUE ("zone_id", "district_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_zones shipping_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zones"
     ADD CONSTRAINT "shipping_zones_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: site_settings site_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."site_settings"
     ADD CONSTRAINT "site_settings_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: sizes sizes_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."sizes"
     ADD CONSTRAINT "sizes_name_key" UNIQUE ("name");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: sizes sizes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."sizes"
     ADD CONSTRAINT "sizes_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: social_links social_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."social_links"
     ADD CONSTRAINT "social_links_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: subcategories subcategories_category_id_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."subcategories"
     ADD CONSTRAINT "subcategories_category_id_slug_key" UNIQUE ("category_id", "slug");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: subcategories subcategories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."subcategories"
     ADD CONSTRAINT "subcategories_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: thanas thanas_district_id_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."thanas"
     ADD CONSTRAINT "thanas_district_id_name_key" UNIQUE ("district_id", "name");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: thanas thanas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."thanas"
     ADD CONSTRAINT "thanas_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."user_roles"
     ADD CONSTRAINT "user_roles_pkey" PRIMARY KEY ("id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: user_roles user_roles_user_id_role_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."user_roles"
     ADD CONSTRAINT "user_roles_user_id_role_key" UNIQUE ("user_id", "role");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: variant_shipping_charges variant_shipping_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."variant_shipping_charges"
     ADD CONSTRAINT "variant_shipping_charges_pkey" PRIMARY KEY ("variant_id", "shipping_charge_id");
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: idx_coupon_products_coupon; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_coupon_products_coupon" ON "public"."coupon_products" USING "btree" ("coupon_id");
+CREATE INDEX IF NOT EXISTS "idx_coupon_products_coupon" ON "public"."coupon_products" USING "btree" ("coupon_id");
 
 
 --
 -- Name: idx_coupon_products_product; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_coupon_products_product" ON "public"."coupon_products" USING "btree" ("product_id");
+CREATE INDEX IF NOT EXISTS "idx_coupon_products_product" ON "public"."coupon_products" USING "btree" ("product_id");
 
 
 --
 -- Name: idx_coupons_code; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_coupons_code" ON "public"."coupons" USING "btree" ("code");
+CREATE INDEX IF NOT EXISTS "idx_coupons_code" ON "public"."coupons" USING "btree" ("code");
 
 
 --
 -- Name: idx_customer_messages_customer; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_customer_messages_customer" ON "public"."customer_messages" USING "btree" ("customer_id", "created_at");
+CREATE INDEX IF NOT EXISTS "idx_customer_messages_customer" ON "public"."customer_messages" USING "btree" ("customer_id", "created_at");
 
 
 --
 -- Name: idx_email_logs_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_email_logs_created_at" ON "public"."email_logs" USING "btree" ("created_at" DESC);
+CREATE INDEX IF NOT EXISTS "idx_email_logs_created_at" ON "public"."email_logs" USING "btree" ("created_at" DESC);
 
 
 --
 -- Name: idx_landing_pages_active; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_landing_pages_active" ON "public"."landing_pages" USING "btree" ("is_active");
+CREATE INDEX IF NOT EXISTS "idx_landing_pages_active" ON "public"."landing_pages" USING "btree" ("is_active");
 
 
 --
 -- Name: idx_landing_pages_slug; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_landing_pages_slug" ON "public"."landing_pages" USING "btree" ("slug");
+CREATE INDEX IF NOT EXISTS "idx_landing_pages_slug" ON "public"."landing_pages" USING "btree" ("slug");
 
 
 --
 -- Name: idx_notifications_audience; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_notifications_audience" ON "public"."notifications" USING "btree" ("audience", "created_at" DESC);
+CREATE INDEX IF NOT EXISTS "idx_notifications_audience" ON "public"."notifications" USING "btree" ("audience", "created_at" DESC);
 
 
 --
 -- Name: idx_notifications_unread; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_notifications_unread" ON "public"."notifications" USING "btree" ("user_id", "is_read") WHERE ("is_read" = false);
+CREATE INDEX IF NOT EXISTS "idx_notifications_unread" ON "public"."notifications" USING "btree" ("user_id", "is_read") WHERE ("is_read" = false);
 
 
 --
 -- Name: idx_notifications_user; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_notifications_user" ON "public"."notifications" USING "btree" ("user_id", "created_at" DESC) WHERE ("user_id" IS NOT NULL);
+CREATE INDEX IF NOT EXISTS "idx_notifications_user" ON "public"."notifications" USING "btree" ("user_id", "created_at" DESC) WHERE ("user_id" IS NOT NULL);
 
 
 --
 -- Name: idx_orders_phone; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_orders_phone" ON "public"."orders" USING "btree" ("phone");
+CREATE INDEX IF NOT EXISTS "idx_orders_phone" ON "public"."orders" USING "btree" ("phone");
 
 
 --
 -- Name: idx_orders_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_orders_user_id" ON "public"."orders" USING "btree" ("user_id");
+CREATE INDEX IF NOT EXISTS "idx_orders_user_id" ON "public"."orders" USING "btree" ("user_id");
 
 
 --
 -- Name: idx_pages_column_group; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_pages_column_group" ON "public"."pages" USING "btree" ("column_group", "sort_order");
+CREATE INDEX IF NOT EXISTS "idx_pages_column_group" ON "public"."pages" USING "btree" ("column_group", "sort_order");
 
 
 --
 -- Name: idx_pending_payments_created; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_pending_payments_created" ON "public"."pending_payments" USING "btree" ("created_at" DESC);
+CREATE INDEX IF NOT EXISTS "idx_pending_payments_created" ON "public"."pending_payments" USING "btree" ("created_at" DESC);
 
 
 --
 -- Name: idx_pending_payments_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_pending_payments_status" ON "public"."pending_payments" USING "btree" ("status");
+CREATE INDEX IF NOT EXISTS "idx_pending_payments_status" ON "public"."pending_payments" USING "btree" ("status");
 
 
 --
 -- Name: idx_pixels_active; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_pixels_active" ON "public"."pixels" USING "btree" ("is_active", "placement");
+CREATE INDEX IF NOT EXISTS "idx_pixels_active" ON "public"."pixels" USING "btree" ("is_active", "placement");
 
 
 --
 -- Name: idx_pixels_unique_pixel_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX "idx_pixels_unique_pixel_id" ON "public"."pixels" USING "btree" ("platform", "pixel_id") WHERE (("pixel_id" IS NOT NULL) AND ("pixel_id" <> ''::"text"));
+CREATE UNIQUE INDEX IF NOT EXISTS "idx_pixels_unique_pixel_id" ON "public"."pixels" USING "btree" ("platform", "pixel_id") WHERE (("pixel_id" IS NOT NULL) AND ("pixel_id" <> ''::"text"));
 
 
 --
 -- Name: idx_pv_product; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_pv_product" ON "public"."product_variants" USING "btree" ("product_id");
+CREATE INDEX IF NOT EXISTS "idx_pv_product" ON "public"."product_variants" USING "btree" ("product_id");
 
 
 --
 -- Name: idx_shipping_charges_zone_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_shipping_charges_zone_id" ON "public"."shipping_charges" USING "btree" ("zone_id");
+CREATE INDEX IF NOT EXISTS "idx_shipping_charges_zone_id" ON "public"."shipping_charges" USING "btree" ("zone_id");
 
 
 --
 -- Name: idx_szd_district; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_szd_district" ON "public"."shipping_zone_districts" USING "btree" ("district_id");
+CREATE INDEX IF NOT EXISTS "idx_szd_district" ON "public"."shipping_zone_districts" USING "btree" ("district_id");
 
 
 --
 -- Name: idx_szd_zone; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_szd_zone" ON "public"."shipping_zone_districts" USING "btree" ("zone_id");
+CREATE INDEX IF NOT EXISTS "idx_szd_zone" ON "public"."shipping_zone_districts" USING "btree" ("zone_id");
 
 
 --
 -- Name: idx_thanas_district; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX "idx_thanas_district" ON "public"."thanas" USING "btree" ("district_id");
+CREATE INDEX IF NOT EXISTS "idx_thanas_district" ON "public"."thanas" USING "btree" ("district_id");
 
 
 --
 -- Name: incomplete_orders_phone_active_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX "incomplete_orders_phone_active_idx" ON "public"."incomplete_orders" USING "btree" ("phone") WHERE ("is_completed" = false);
+CREATE UNIQUE INDEX IF NOT EXISTS "incomplete_orders_phone_active_idx" ON "public"."incomplete_orders" USING "btree" ("phone") WHERE ("is_completed" = false);
 
 
 --
 -- Name: uq_pv_combo; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX "uq_pv_combo" ON "public"."product_variants" USING "btree" ("product_id", COALESCE("color_id", '00000000-0000-0000-0000-000000000000'::"uuid"), COALESCE("size_id", '00000000-0000-0000-0000-000000000000'::"uuid"), COALESCE("model_id", '00000000-0000-0000-0000-000000000000'::"uuid"));
+CREATE UNIQUE INDEX IF NOT EXISTS "uq_pv_combo" ON "public"."product_variants" USING "btree" ("product_id", COALESCE("color_id", '00000000-0000-0000-0000-000000000000'::"uuid"), COALESCE("size_id", '00000000-0000-0000-0000-000000000000'::"uuid"), COALESCE("model_id", '00000000-0000-0000-0000-000000000000'::"uuid"));
 
 
 --
 -- Name: contact_messages trg_notify_contact_message; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_notify_contact_message" ON "public"."contact_messages";
 CREATE TRIGGER "trg_notify_contact_message" AFTER INSERT ON "public"."contact_messages" FOR EACH ROW EXECUTE FUNCTION "public"."notify_on_contact_message"();
 
 
@@ -1957,6 +2106,7 @@ CREATE TRIGGER "trg_notify_contact_message" AFTER INSERT ON "public"."contact_me
 -- Name: customer_messages trg_notify_customer_message; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_notify_customer_message" ON "public"."customer_messages";
 CREATE TRIGGER "trg_notify_customer_message" AFTER INSERT ON "public"."customer_messages" FOR EACH ROW EXECUTE FUNCTION "public"."notify_on_customer_message"();
 
 
@@ -1964,6 +2114,7 @@ CREATE TRIGGER "trg_notify_customer_message" AFTER INSERT ON "public"."customer_
 -- Name: orders trg_notify_new_order; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_notify_new_order" ON "public"."orders";
 CREATE TRIGGER "trg_notify_new_order" AFTER INSERT ON "public"."orders" FOR EACH ROW EXECUTE FUNCTION "public"."notify_on_new_order"();
 
 
@@ -1971,6 +2122,7 @@ CREATE TRIGGER "trg_notify_new_order" AFTER INSERT ON "public"."orders" FOR EACH
 -- Name: orders trg_notify_order_status; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_notify_order_status" ON "public"."orders";
 CREATE TRIGGER "trg_notify_order_status" AFTER UPDATE ON "public"."orders" FOR EACH ROW EXECUTE FUNCTION "public"."notify_on_order_status_change"();
 
 
@@ -1978,6 +2130,7 @@ CREATE TRIGGER "trg_notify_order_status" AFTER UPDATE ON "public"."orders" FOR E
 -- Name: pending_payments trg_notify_pending_payment; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_notify_pending_payment" ON "public"."pending_payments";
 CREATE TRIGGER "trg_notify_pending_payment" AFTER INSERT ON "public"."pending_payments" FOR EACH ROW EXECUTE FUNCTION "public"."notify_on_pending_payment"();
 
 
@@ -1985,6 +2138,7 @@ CREATE TRIGGER "trg_notify_pending_payment" AFTER INSERT ON "public"."pending_pa
 -- Name: pending_payments trg_notify_pending_payment_review; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_notify_pending_payment_review" ON "public"."pending_payments";
 CREATE TRIGGER "trg_notify_pending_payment_review" AFTER UPDATE ON "public"."pending_payments" FOR EACH ROW EXECUTE FUNCTION "public"."notify_on_pending_payment_review"();
 
 
@@ -1992,6 +2146,7 @@ CREATE TRIGGER "trg_notify_pending_payment_review" AFTER UPDATE ON "public"."pen
 -- Name: social_links trg_social_links_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "trg_social_links_updated_at" ON "public"."social_links";
 CREATE TRIGGER "trg_social_links_updated_at" BEFORE UPDATE ON "public"."social_links" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -1999,6 +2154,7 @@ CREATE TRIGGER "trg_social_links_updated_at" BEFORE UPDATE ON "public"."social_l
 -- Name: banner_categories update_banner_categories_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_banner_categories_updated_at" ON "public"."banner_categories";
 CREATE TRIGGER "update_banner_categories_updated_at" BEFORE UPDATE ON "public"."banner_categories" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2006,6 +2162,7 @@ CREATE TRIGGER "update_banner_categories_updated_at" BEFORE UPDATE ON "public"."
 -- Name: coupons update_coupons_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_coupons_updated_at" ON "public"."coupons";
 CREATE TRIGGER "update_coupons_updated_at" BEFORE UPDATE ON "public"."coupons" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2013,6 +2170,7 @@ CREATE TRIGGER "update_coupons_updated_at" BEFORE UPDATE ON "public"."coupons" F
 -- Name: customers update_customers_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_customers_updated_at" ON "public"."customers";
 CREATE TRIGGER "update_customers_updated_at" BEFORE UPDATE ON "public"."customers" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2020,6 +2178,7 @@ CREATE TRIGGER "update_customers_updated_at" BEFORE UPDATE ON "public"."customer
 -- Name: districts update_districts_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_districts_updated_at" ON "public"."districts";
 CREATE TRIGGER "update_districts_updated_at" BEFORE UPDATE ON "public"."districts" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2027,6 +2186,7 @@ CREATE TRIGGER "update_districts_updated_at" BEFORE UPDATE ON "public"."district
 -- Name: incomplete_orders update_incomplete_orders_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_incomplete_orders_updated_at" ON "public"."incomplete_orders";
 CREATE TRIGGER "update_incomplete_orders_updated_at" BEFORE UPDATE ON "public"."incomplete_orders" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2034,6 +2194,7 @@ CREATE TRIGGER "update_incomplete_orders_updated_at" BEFORE UPDATE ON "public"."
 -- Name: landing_pages update_landing_pages_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_landing_pages_updated_at" ON "public"."landing_pages";
 CREATE TRIGGER "update_landing_pages_updated_at" BEFORE UPDATE ON "public"."landing_pages" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2041,6 +2202,7 @@ CREATE TRIGGER "update_landing_pages_updated_at" BEFORE UPDATE ON "public"."land
 -- Name: pages update_pages_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_pages_updated_at" ON "public"."pages";
 CREATE TRIGGER "update_pages_updated_at" BEFORE UPDATE ON "public"."pages" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2048,6 +2210,7 @@ CREATE TRIGGER "update_pages_updated_at" BEFORE UPDATE ON "public"."pages" FOR E
 -- Name: payment_methods update_payment_methods_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_payment_methods_updated_at" ON "public"."payment_methods";
 CREATE TRIGGER "update_payment_methods_updated_at" BEFORE UPDATE ON "public"."payment_methods" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2055,6 +2218,7 @@ CREATE TRIGGER "update_payment_methods_updated_at" BEFORE UPDATE ON "public"."pa
 -- Name: pending_payments update_pending_payments_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_pending_payments_updated_at" ON "public"."pending_payments";
 CREATE TRIGGER "update_pending_payments_updated_at" BEFORE UPDATE ON "public"."pending_payments" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2062,6 +2226,7 @@ CREATE TRIGGER "update_pending_payments_updated_at" BEFORE UPDATE ON "public"."p
 -- Name: pixels update_pixels_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_pixels_updated_at" ON "public"."pixels";
 CREATE TRIGGER "update_pixels_updated_at" BEFORE UPDATE ON "public"."pixels" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2069,6 +2234,7 @@ CREATE TRIGGER "update_pixels_updated_at" BEFORE UPDATE ON "public"."pixels" FOR
 -- Name: popups update_popups_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_popups_updated_at" ON "public"."popups";
 CREATE TRIGGER "update_popups_updated_at" BEFORE UPDATE ON "public"."popups" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2076,6 +2242,7 @@ CREATE TRIGGER "update_popups_updated_at" BEFORE UPDATE ON "public"."popups" FOR
 -- Name: product_variants update_product_variants_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_product_variants_updated_at" ON "public"."product_variants";
 CREATE TRIGGER "update_product_variants_updated_at" BEFORE UPDATE ON "public"."product_variants" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2083,6 +2250,7 @@ CREATE TRIGGER "update_product_variants_updated_at" BEFORE UPDATE ON "public"."p
 -- Name: profiles update_profiles_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_profiles_updated_at" ON "public"."profiles";
 CREATE TRIGGER "update_profiles_updated_at" BEFORE UPDATE ON "public"."profiles" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2090,6 +2258,7 @@ CREATE TRIGGER "update_profiles_updated_at" BEFORE UPDATE ON "public"."profiles"
 -- Name: shipping_zones update_shipping_zones_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_shipping_zones_updated_at" ON "public"."shipping_zones";
 CREATE TRIGGER "update_shipping_zones_updated_at" BEFORE UPDATE ON "public"."shipping_zones" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2097,6 +2266,7 @@ CREATE TRIGGER "update_shipping_zones_updated_at" BEFORE UPDATE ON "public"."shi
 -- Name: thanas update_thanas_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "update_thanas_updated_at" ON "public"."thanas";
 CREATE TRIGGER "update_thanas_updated_at" BEFORE UPDATE ON "public"."thanas" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 
@@ -2104,6 +2274,7 @@ CREATE TRIGGER "update_thanas_updated_at" BEFORE UPDATE ON "public"."thanas" FOR
 -- Name: orders upsert_customer_after_order; Type: TRIGGER; Schema: public; Owner: -
 --
 
+DROP TRIGGER IF EXISTS "upsert_customer_after_order" ON "public"."orders";
 CREATE TRIGGER "upsert_customer_after_order" AFTER INSERT ON "public"."orders" FOR EACH ROW EXECUTE FUNCTION "public"."upsert_customer_on_order"();
 
 
@@ -2111,262 +2282,327 @@ CREATE TRIGGER "upsert_customer_after_order" AFTER INSERT ON "public"."orders" F
 -- Name: childcategories childcategories_subcategory_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."childcategories"
     ADD CONSTRAINT "childcategories_subcategory_id_fkey" FOREIGN KEY ("subcategory_id") REFERENCES "public"."subcategories"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: coupon_products coupon_products_coupon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_coupon_id_fkey" FOREIGN KEY ("coupon_id") REFERENCES "public"."coupons"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: coupon_products coupon_products_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: courier_shipments courier_shipments_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."courier_shipments"
     ADD CONSTRAINT "courier_shipments_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: order_items order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_items"
     ADD CONSTRAINT "order_items_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: order_items order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_items"
     ADD CONSTRAINT "order_items_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: price_history price_history_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."price_history"
     ADD CONSTRAINT "price_history_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_colors product_colors_color_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_colors"
     ADD CONSTRAINT "product_colors_color_id_fkey" FOREIGN KEY ("color_id") REFERENCES "public"."colors"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_colors product_colors_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_colors"
     ADD CONSTRAINT "product_colors_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_models product_models_model_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_models"
     ADD CONSTRAINT "product_models_model_id_fkey" FOREIGN KEY ("model_id") REFERENCES "public"."models"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_models product_models_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_models"
     ADD CONSTRAINT "product_models_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_shipping_charges product_shipping_charges_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_shipping_charges"
     ADD CONSTRAINT "product_shipping_charges_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_shipping_charges product_shipping_charges_shipping_charge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_shipping_charges"
     ADD CONSTRAINT "product_shipping_charges_shipping_charge_id_fkey" FOREIGN KEY ("shipping_charge_id") REFERENCES "public"."shipping_charges"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_sizes product_sizes_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_sizes"
     ADD CONSTRAINT "product_sizes_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_sizes product_sizes_size_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_sizes"
     ADD CONSTRAINT "product_sizes_size_id_fkey" FOREIGN KEY ("size_id") REFERENCES "public"."sizes"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_variants product_variants_color_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_color_id_fkey" FOREIGN KEY ("color_id") REFERENCES "public"."colors"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_variants product_variants_model_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_model_id_fkey" FOREIGN KEY ("model_id") REFERENCES "public"."models"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_variants product_variants_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: product_variants product_variants_size_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_size_id_fkey" FOREIGN KEY ("size_id") REFERENCES "public"."sizes"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: products products_brand_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "public"."brands"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: products products_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: products products_childcategory_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_childcategory_id_fkey" FOREIGN KEY ("childcategory_id") REFERENCES "public"."childcategories"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: products products_subcategory_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_subcategory_id_fkey" FOREIGN KEY ("subcategory_id") REFERENCES "public"."subcategories"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: role_permissions role_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."role_permissions"
     ADD CONSTRAINT "role_permissions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "public"."permissions"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_charges shipping_charges_zone_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_charges"
     ADD CONSTRAINT "shipping_charges_zone_id_fkey" FOREIGN KEY ("zone_id") REFERENCES "public"."shipping_zones"("id") ON DELETE SET NULL;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_zone_districts shipping_zone_districts_district_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_district_id_fkey" FOREIGN KEY ("district_id") REFERENCES "public"."districts"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: shipping_zone_districts shipping_zone_districts_zone_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_zone_id_fkey" FOREIGN KEY ("zone_id") REFERENCES "public"."shipping_zones"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: subcategories subcategories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."subcategories"
     ADD CONSTRAINT "subcategories_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: thanas thanas_district_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."thanas"
     ADD CONSTRAINT "thanas_district_id_fkey" FOREIGN KEY ("district_id") REFERENCES "public"."districts"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: user_roles user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."user_roles"
     ADD CONSTRAINT "user_roles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: variant_shipping_charges variant_shipping_charges_shipping_charge_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."variant_shipping_charges"
     ADD CONSTRAINT "variant_shipping_charges_shipping_charge_id_fkey" FOREIGN KEY ("shipping_charge_id") REFERENCES "public"."shipping_charges"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: variant_shipping_charges variant_shipping_charges_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."variant_shipping_charges"
     ADD CONSTRAINT "variant_shipping_charges_variant_id_fkey" FOREIGN KEY ("variant_id") REFERENCES "public"."product_variants"("id") ON DELETE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
 -- Name: customers Admins and staff read customers; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins and staff read customers" ON "public"."customers";
 CREATE POLICY "Admins and staff read customers" ON "public"."customers" FOR SELECT TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -2374,6 +2610,7 @@ CREATE POLICY "Admins and staff read customers" ON "public"."customers" FOR SELE
 -- Name: incomplete_orders Admins and staff read incomplete orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins and staff read incomplete orders" ON "public"."incomplete_orders";
 CREATE POLICY "Admins and staff read incomplete orders" ON "public"."incomplete_orders" FOR SELECT TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -2381,6 +2618,7 @@ CREATE POLICY "Admins and staff read incomplete orders" ON "public"."incomplete_
 -- Name: pending_payments Admins and staff read pending payments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins and staff read pending payments" ON "public"."pending_payments";
 CREATE POLICY "Admins and staff read pending payments" ON "public"."pending_payments" FOR SELECT TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -2388,6 +2626,7 @@ CREATE POLICY "Admins and staff read pending payments" ON "public"."pending_paym
 -- Name: pending_payments Admins and staff update pending payments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins and staff update pending payments" ON "public"."pending_payments";
 CREATE POLICY "Admins and staff update pending payments" ON "public"."pending_payments" FOR UPDATE TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -2395,6 +2634,7 @@ CREATE POLICY "Admins and staff update pending payments" ON "public"."pending_pa
 -- Name: email_logs Admins can view email logs; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins can view email logs" ON "public"."email_logs";
 CREATE POLICY "Admins can view email logs" ON "public"."email_logs" FOR SELECT USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2402,6 +2642,7 @@ CREATE POLICY "Admins can view email logs" ON "public"."email_logs" FOR SELECT U
 -- Name: notifications Admins delete admin notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete admin notifications" ON "public"."notifications";
 CREATE POLICY "Admins delete admin notifications" ON "public"."notifications" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2409,6 +2650,7 @@ CREATE POLICY "Admins delete admin notifications" ON "public"."notifications" FO
 -- Name: incomplete_orders Admins delete incomplete orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete incomplete orders" ON "public"."incomplete_orders";
 CREATE POLICY "Admins delete incomplete orders" ON "public"."incomplete_orders" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2416,6 +2658,7 @@ CREATE POLICY "Admins delete incomplete orders" ON "public"."incomplete_orders" 
 -- Name: contact_messages Admins delete messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete messages" ON "public"."contact_messages";
 CREATE POLICY "Admins delete messages" ON "public"."contact_messages" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2423,6 +2666,7 @@ CREATE POLICY "Admins delete messages" ON "public"."contact_messages" FOR DELETE
 -- Name: customer_messages Admins delete messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete messages" ON "public"."customer_messages";
 CREATE POLICY "Admins delete messages" ON "public"."customer_messages" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2430,6 +2674,7 @@ CREATE POLICY "Admins delete messages" ON "public"."customer_messages" FOR DELET
 -- Name: orders Admins delete orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete orders" ON "public"."orders";
 CREATE POLICY "Admins delete orders" ON "public"."orders" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2437,6 +2682,7 @@ CREATE POLICY "Admins delete orders" ON "public"."orders" FOR DELETE TO "authent
 -- Name: pending_payments Admins delete pending payments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete pending payments" ON "public"."pending_payments";
 CREATE POLICY "Admins delete pending payments" ON "public"."pending_payments" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2444,6 +2690,7 @@ CREATE POLICY "Admins delete pending payments" ON "public"."pending_payments" FO
 -- Name: profiles Admins delete profiles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete profiles" ON "public"."profiles";
 CREATE POLICY "Admins delete profiles" ON "public"."profiles" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2451,6 +2698,7 @@ CREATE POLICY "Admins delete profiles" ON "public"."profiles" FOR DELETE TO "aut
 -- Name: courier_shipments Admins delete shipments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete shipments" ON "public"."courier_shipments";
 CREATE POLICY "Admins delete shipments" ON "public"."courier_shipments" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2458,6 +2706,7 @@ CREATE POLICY "Admins delete shipments" ON "public"."courier_shipments" FOR DELE
 -- Name: social_links Admins delete social links; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete social links" ON "public"."social_links";
 CREATE POLICY "Admins delete social links" ON "public"."social_links" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2465,6 +2714,7 @@ CREATE POLICY "Admins delete social links" ON "public"."social_links" FOR DELETE
 -- Name: newsletter_subscribers Admins delete subscribers; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins delete subscribers" ON "public"."newsletter_subscribers";
 CREATE POLICY "Admins delete subscribers" ON "public"."newsletter_subscribers" FOR DELETE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2472,6 +2722,7 @@ CREATE POLICY "Admins delete subscribers" ON "public"."newsletter_subscribers" F
 -- Name: customer_messages Admins insert messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins insert messages" ON "public"."customer_messages";
 CREATE POLICY "Admins insert messages" ON "public"."customer_messages" FOR INSERT TO "authenticated" WITH CHECK (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") AND ("sender" = 'admin'::"text")));
 
 
@@ -2479,6 +2730,7 @@ CREATE POLICY "Admins insert messages" ON "public"."customer_messages" FOR INSER
 -- Name: notifications Admins insert notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins insert notifications" ON "public"."notifications";
 CREATE POLICY "Admins insert notifications" ON "public"."notifications" FOR INSERT TO "authenticated" WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2486,6 +2738,7 @@ CREATE POLICY "Admins insert notifications" ON "public"."notifications" FOR INSE
 -- Name: price_history Admins insert price history; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins insert price history" ON "public"."price_history";
 CREATE POLICY "Admins insert price history" ON "public"."price_history" FOR INSERT TO "authenticated" WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2493,6 +2746,7 @@ CREATE POLICY "Admins insert price history" ON "public"."price_history" FOR INSE
 -- Name: profiles Admins insert profiles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins insert profiles" ON "public"."profiles";
 CREATE POLICY "Admins insert profiles" ON "public"."profiles" FOR INSERT TO "authenticated" WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2500,6 +2754,7 @@ CREATE POLICY "Admins insert profiles" ON "public"."profiles" FOR INSERT TO "aut
 -- Name: site_settings Admins insert site settings; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins insert site settings" ON "public"."site_settings";
 CREATE POLICY "Admins insert site settings" ON "public"."site_settings" FOR INSERT TO "authenticated" WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2507,6 +2762,7 @@ CREATE POLICY "Admins insert site settings" ON "public"."site_settings" FOR INSE
 -- Name: social_links Admins insert social links; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins insert social links" ON "public"."social_links";
 CREATE POLICY "Admins insert social links" ON "public"."social_links" FOR INSERT TO "authenticated" WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2514,6 +2770,7 @@ CREATE POLICY "Admins insert social links" ON "public"."social_links" FOR INSERT
 -- Name: banner_categories Admins manage banner_categories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage banner_categories" ON "public"."banner_categories";
 CREATE POLICY "Admins manage banner_categories" ON "public"."banner_categories" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2521,6 +2778,7 @@ CREATE POLICY "Admins manage banner_categories" ON "public"."banner_categories" 
 -- Name: banners Admins manage banners; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage banners" ON "public"."banners";
 CREATE POLICY "Admins manage banners" ON "public"."banners" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2528,6 +2786,7 @@ CREATE POLICY "Admins manage banners" ON "public"."banners" TO "authenticated" U
 -- Name: brands Admins manage brands; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage brands" ON "public"."brands";
 CREATE POLICY "Admins manage brands" ON "public"."brands" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2535,6 +2794,7 @@ CREATE POLICY "Admins manage brands" ON "public"."brands" TO "authenticated" USI
 -- Name: categories Admins manage categories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage categories" ON "public"."categories";
 CREATE POLICY "Admins manage categories" ON "public"."categories" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2542,6 +2802,7 @@ CREATE POLICY "Admins manage categories" ON "public"."categories" TO "authentica
 -- Name: childcategories Admins manage childcategories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage childcategories" ON "public"."childcategories";
 CREATE POLICY "Admins manage childcategories" ON "public"."childcategories" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2549,6 +2810,7 @@ CREATE POLICY "Admins manage childcategories" ON "public"."childcategories" TO "
 -- Name: colors Admins manage colors; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage colors" ON "public"."colors";
 CREATE POLICY "Admins manage colors" ON "public"."colors" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2556,6 +2818,7 @@ CREATE POLICY "Admins manage colors" ON "public"."colors" TO "authenticated" USI
 -- Name: coupon_products Admins manage coupon_products; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage coupon_products" ON "public"."coupon_products";
 CREATE POLICY "Admins manage coupon_products" ON "public"."coupon_products" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2563,6 +2826,7 @@ CREATE POLICY "Admins manage coupon_products" ON "public"."coupon_products" USIN
 -- Name: coupons Admins manage coupons; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage coupons" ON "public"."coupons";
 CREATE POLICY "Admins manage coupons" ON "public"."coupons" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2570,6 +2834,7 @@ CREATE POLICY "Admins manage coupons" ON "public"."coupons" USING ("public"."has
 -- Name: customers Admins manage customers; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage customers" ON "public"."customers";
 CREATE POLICY "Admins manage customers" ON "public"."customers" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2577,6 +2842,7 @@ CREATE POLICY "Admins manage customers" ON "public"."customers" TO "authenticate
 -- Name: districts Admins manage districts; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage districts" ON "public"."districts";
 CREATE POLICY "Admins manage districts" ON "public"."districts" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2584,6 +2850,7 @@ CREATE POLICY "Admins manage districts" ON "public"."districts" USING ("public".
 -- Name: landing_pages Admins manage landing pages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage landing pages" ON "public"."landing_pages";
 CREATE POLICY "Admins manage landing pages" ON "public"."landing_pages" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2591,6 +2858,7 @@ CREATE POLICY "Admins manage landing pages" ON "public"."landing_pages" TO "auth
 -- Name: models Admins manage models; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage models" ON "public"."models";
 CREATE POLICY "Admins manage models" ON "public"."models" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2598,6 +2866,7 @@ CREATE POLICY "Admins manage models" ON "public"."models" TO "authenticated" USI
 -- Name: order_statuses Admins manage order_statuses; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage order_statuses" ON "public"."order_statuses";
 CREATE POLICY "Admins manage order_statuses" ON "public"."order_statuses" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2605,6 +2874,7 @@ CREATE POLICY "Admins manage order_statuses" ON "public"."order_statuses" TO "au
 -- Name: pages Admins manage pages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage pages" ON "public"."pages";
 CREATE POLICY "Admins manage pages" ON "public"."pages" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2612,6 +2882,7 @@ CREATE POLICY "Admins manage pages" ON "public"."pages" TO "authenticated" USING
 -- Name: payment_methods Admins manage payment_methods; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage payment_methods" ON "public"."payment_methods";
 CREATE POLICY "Admins manage payment_methods" ON "public"."payment_methods" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2619,6 +2890,7 @@ CREATE POLICY "Admins manage payment_methods" ON "public"."payment_methods" TO "
 -- Name: permissions Admins manage permissions; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage permissions" ON "public"."permissions";
 CREATE POLICY "Admins manage permissions" ON "public"."permissions" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2626,6 +2898,7 @@ CREATE POLICY "Admins manage permissions" ON "public"."permissions" TO "authenti
 -- Name: pixels Admins manage pixels; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage pixels" ON "public"."pixels";
 CREATE POLICY "Admins manage pixels" ON "public"."pixels" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2633,6 +2906,7 @@ CREATE POLICY "Admins manage pixels" ON "public"."pixels" TO "authenticated" USI
 -- Name: popups Admins manage popups; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage popups" ON "public"."popups";
 CREATE POLICY "Admins manage popups" ON "public"."popups" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2640,6 +2914,7 @@ CREATE POLICY "Admins manage popups" ON "public"."popups" TO "authenticated" USI
 -- Name: product_colors Admins manage product_colors; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage product_colors" ON "public"."product_colors";
 CREATE POLICY "Admins manage product_colors" ON "public"."product_colors" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2647,6 +2922,7 @@ CREATE POLICY "Admins manage product_colors" ON "public"."product_colors" TO "au
 -- Name: product_models Admins manage product_models; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage product_models" ON "public"."product_models";
 CREATE POLICY "Admins manage product_models" ON "public"."product_models" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2654,6 +2930,7 @@ CREATE POLICY "Admins manage product_models" ON "public"."product_models" TO "au
 -- Name: product_shipping_charges Admins manage product_shipping_charges; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage product_shipping_charges" ON "public"."product_shipping_charges";
 CREATE POLICY "Admins manage product_shipping_charges" ON "public"."product_shipping_charges" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2661,6 +2938,7 @@ CREATE POLICY "Admins manage product_shipping_charges" ON "public"."product_ship
 -- Name: product_sizes Admins manage product_sizes; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage product_sizes" ON "public"."product_sizes";
 CREATE POLICY "Admins manage product_sizes" ON "public"."product_sizes" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2668,6 +2946,7 @@ CREATE POLICY "Admins manage product_sizes" ON "public"."product_sizes" TO "auth
 -- Name: product_variants Admins manage product_variants; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage product_variants" ON "public"."product_variants";
 CREATE POLICY "Admins manage product_variants" ON "public"."product_variants" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2675,6 +2954,7 @@ CREATE POLICY "Admins manage product_variants" ON "public"."product_variants" TO
 -- Name: products Admins manage products; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage products" ON "public"."products";
 CREATE POLICY "Admins manage products" ON "public"."products" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2682,6 +2962,7 @@ CREATE POLICY "Admins manage products" ON "public"."products" TO "authenticated"
 -- Name: role_permissions Admins manage role_permissions; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage role_permissions" ON "public"."role_permissions";
 CREATE POLICY "Admins manage role_permissions" ON "public"."role_permissions" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2689,6 +2970,7 @@ CREATE POLICY "Admins manage role_permissions" ON "public"."role_permissions" TO
 -- Name: user_roles Admins manage roles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage roles" ON "public"."user_roles";
 CREATE POLICY "Admins manage roles" ON "public"."user_roles" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2696,6 +2978,7 @@ CREATE POLICY "Admins manage roles" ON "public"."user_roles" TO "authenticated" 
 -- Name: shipping_zones Admins manage shipping zones; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage shipping zones" ON "public"."shipping_zones";
 CREATE POLICY "Admins manage shipping zones" ON "public"."shipping_zones" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2703,6 +2986,7 @@ CREATE POLICY "Admins manage shipping zones" ON "public"."shipping_zones" TO "au
 -- Name: shipping_charges Admins manage shipping_charges; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage shipping_charges" ON "public"."shipping_charges";
 CREATE POLICY "Admins manage shipping_charges" ON "public"."shipping_charges" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2710,6 +2994,7 @@ CREATE POLICY "Admins manage shipping_charges" ON "public"."shipping_charges" TO
 -- Name: sizes Admins manage sizes; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage sizes" ON "public"."sizes";
 CREATE POLICY "Admins manage sizes" ON "public"."sizes" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2717,6 +3002,7 @@ CREATE POLICY "Admins manage sizes" ON "public"."sizes" TO "authenticated" USING
 -- Name: subcategories Admins manage subcategories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage subcategories" ON "public"."subcategories";
 CREATE POLICY "Admins manage subcategories" ON "public"."subcategories" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2724,6 +3010,7 @@ CREATE POLICY "Admins manage subcategories" ON "public"."subcategories" TO "auth
 -- Name: thanas Admins manage thanas; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage thanas" ON "public"."thanas";
 CREATE POLICY "Admins manage thanas" ON "public"."thanas" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2731,6 +3018,7 @@ CREATE POLICY "Admins manage thanas" ON "public"."thanas" USING ("public"."has_r
 -- Name: user_roles Admins manage user_roles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage user_roles" ON "public"."user_roles";
 CREATE POLICY "Admins manage user_roles" ON "public"."user_roles" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2738,6 +3026,7 @@ CREATE POLICY "Admins manage user_roles" ON "public"."user_roles" TO "authentica
 -- Name: variant_shipping_charges Admins manage variant_shipping_charges; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage variant_shipping_charges" ON "public"."variant_shipping_charges";
 CREATE POLICY "Admins manage variant_shipping_charges" ON "public"."variant_shipping_charges" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2745,6 +3034,7 @@ CREATE POLICY "Admins manage variant_shipping_charges" ON "public"."variant_ship
 -- Name: shipping_zone_districts Admins manage zone districts; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins manage zone districts" ON "public"."shipping_zone_districts";
 CREATE POLICY "Admins manage zone districts" ON "public"."shipping_zone_districts" TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2752,6 +3042,7 @@ CREATE POLICY "Admins manage zone districts" ON "public"."shipping_zone_district
 -- Name: notifications Admins read admin notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read admin notifications" ON "public"."notifications";
 CREATE POLICY "Admins read admin notifications" ON "public"."notifications" FOR SELECT TO "authenticated" USING ((("audience" = 'admin'::"text") AND ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role"))));
 
 
@@ -2759,6 +3050,7 @@ CREATE POLICY "Admins read admin notifications" ON "public"."notifications" FOR 
 -- Name: customer_messages Admins read all messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read all messages" ON "public"."customer_messages";
 CREATE POLICY "Admins read all messages" ON "public"."customer_messages" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2766,6 +3058,7 @@ CREATE POLICY "Admins read all messages" ON "public"."customer_messages" FOR SEL
 -- Name: profiles Admins read all profiles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read all profiles" ON "public"."profiles";
 CREATE POLICY "Admins read all profiles" ON "public"."profiles" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2773,6 +3066,7 @@ CREATE POLICY "Admins read all profiles" ON "public"."profiles" FOR SELECT TO "a
 -- Name: contact_messages Admins read messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read messages" ON "public"."contact_messages";
 CREATE POLICY "Admins read messages" ON "public"."contact_messages" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2780,6 +3074,7 @@ CREATE POLICY "Admins read messages" ON "public"."contact_messages" FOR SELECT T
 -- Name: order_items Admins read order items; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read order items" ON "public"."order_items";
 CREATE POLICY "Admins read order items" ON "public"."order_items" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2787,6 +3082,7 @@ CREATE POLICY "Admins read order items" ON "public"."order_items" FOR SELECT TO 
 -- Name: orders Admins read orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read orders" ON "public"."orders";
 CREATE POLICY "Admins read orders" ON "public"."orders" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2794,6 +3090,7 @@ CREATE POLICY "Admins read orders" ON "public"."orders" FOR SELECT TO "authentic
 -- Name: price_history Admins read price history; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read price history" ON "public"."price_history";
 CREATE POLICY "Admins read price history" ON "public"."price_history" FOR SELECT TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -2801,6 +3098,7 @@ CREATE POLICY "Admins read price history" ON "public"."price_history" FOR SELECT
 -- Name: newsletter_subscribers Admins read subscribers; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins read subscribers" ON "public"."newsletter_subscribers";
 CREATE POLICY "Admins read subscribers" ON "public"."newsletter_subscribers" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2808,6 +3106,7 @@ CREATE POLICY "Admins read subscribers" ON "public"."newsletter_subscribers" FOR
 -- Name: notifications Admins update admin notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update admin notifications" ON "public"."notifications";
 CREATE POLICY "Admins update admin notifications" ON "public"."notifications" FOR UPDATE TO "authenticated" USING ((("audience" = 'admin'::"text") AND ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")))) WITH CHECK ((("audience" = 'admin'::"text") AND ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role"))));
 
 
@@ -2815,6 +3114,7 @@ CREATE POLICY "Admins update admin notifications" ON "public"."notifications" FO
 -- Name: profiles Admins update all profiles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update all profiles" ON "public"."profiles";
 CREATE POLICY "Admins update all profiles" ON "public"."profiles" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2822,6 +3122,7 @@ CREATE POLICY "Admins update all profiles" ON "public"."profiles" FOR UPDATE TO 
 -- Name: contact_messages Admins update messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update messages" ON "public"."contact_messages";
 CREATE POLICY "Admins update messages" ON "public"."contact_messages" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2829,6 +3130,7 @@ CREATE POLICY "Admins update messages" ON "public"."contact_messages" FOR UPDATE
 -- Name: customer_messages Admins update messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update messages" ON "public"."customer_messages";
 CREATE POLICY "Admins update messages" ON "public"."customer_messages" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2836,6 +3138,7 @@ CREATE POLICY "Admins update messages" ON "public"."customer_messages" FOR UPDAT
 -- Name: orders Admins update orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update orders" ON "public"."orders";
 CREATE POLICY "Admins update orders" ON "public"."orders" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2843,6 +3146,7 @@ CREATE POLICY "Admins update orders" ON "public"."orders" FOR UPDATE TO "authent
 -- Name: site_settings Admins update site settings; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update site settings" ON "public"."site_settings";
 CREATE POLICY "Admins update site settings" ON "public"."site_settings" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2850,6 +3154,7 @@ CREATE POLICY "Admins update site settings" ON "public"."site_settings" FOR UPDA
 -- Name: social_links Admins update social links; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Admins update social links" ON "public"."social_links";
 CREATE POLICY "Admins update social links" ON "public"."social_links" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")) WITH CHECK ("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role"));
 
 
@@ -2857,6 +3162,7 @@ CREATE POLICY "Admins update social links" ON "public"."social_links" FOR UPDATE
 -- Name: incomplete_orders Anyone can create incomplete orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can create incomplete orders" ON "public"."incomplete_orders";
 CREATE POLICY "Anyone can create incomplete orders" ON "public"."incomplete_orders" FOR INSERT WITH CHECK (true);
 
 
@@ -2864,6 +3170,7 @@ CREATE POLICY "Anyone can create incomplete orders" ON "public"."incomplete_orde
 -- Name: order_items Anyone can insert order items; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can insert order items" ON "public"."order_items";
 CREATE POLICY "Anyone can insert order items" ON "public"."order_items" FOR INSERT WITH CHECK (true);
 
 
@@ -2871,6 +3178,7 @@ CREATE POLICY "Anyone can insert order items" ON "public"."order_items" FOR INSE
 -- Name: orders Anyone can place orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can place orders" ON "public"."orders";
 CREATE POLICY "Anyone can place orders" ON "public"."orders" FOR INSERT WITH CHECK (true);
 
 
@@ -2878,6 +3186,7 @@ CREATE POLICY "Anyone can place orders" ON "public"."orders" FOR INSERT WITH CHE
 -- Name: contact_messages Anyone can submit messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can submit messages" ON "public"."contact_messages";
 CREATE POLICY "Anyone can submit messages" ON "public"."contact_messages" FOR INSERT WITH CHECK (true);
 
 
@@ -2885,6 +3194,7 @@ CREATE POLICY "Anyone can submit messages" ON "public"."contact_messages" FOR IN
 -- Name: pending_payments Anyone can submit pending payment; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can submit pending payment" ON "public"."pending_payments";
 CREATE POLICY "Anyone can submit pending payment" ON "public"."pending_payments" FOR INSERT WITH CHECK (true);
 
 
@@ -2892,6 +3202,7 @@ CREATE POLICY "Anyone can submit pending payment" ON "public"."pending_payments"
 -- Name: newsletter_subscribers Anyone can subscribe; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can subscribe" ON "public"."newsletter_subscribers";
 CREATE POLICY "Anyone can subscribe" ON "public"."newsletter_subscribers" FOR INSERT WITH CHECK (true);
 
 
@@ -2899,6 +3210,7 @@ CREATE POLICY "Anyone can subscribe" ON "public"."newsletter_subscribers" FOR IN
 -- Name: incomplete_orders Anyone can update incomplete orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can update incomplete orders" ON "public"."incomplete_orders";
 CREATE POLICY "Anyone can update incomplete orders" ON "public"."incomplete_orders" FOR UPDATE USING (true) WITH CHECK (true);
 
 
@@ -2906,6 +3218,7 @@ CREATE POLICY "Anyone can update incomplete orders" ON "public"."incomplete_orde
 -- Name: districts Anyone can view active districts; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can view active districts" ON "public"."districts";
 CREATE POLICY "Anyone can view active districts" ON "public"."districts" FOR SELECT USING (("is_active" = true));
 
 
@@ -2913,6 +3226,7 @@ CREATE POLICY "Anyone can view active districts" ON "public"."districts" FOR SEL
 -- Name: shipping_zones Anyone can view active shipping zones; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can view active shipping zones" ON "public"."shipping_zones";
 CREATE POLICY "Anyone can view active shipping zones" ON "public"."shipping_zones" FOR SELECT USING (true);
 
 
@@ -2920,6 +3234,7 @@ CREATE POLICY "Anyone can view active shipping zones" ON "public"."shipping_zone
 -- Name: thanas Anyone can view active thanas; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can view active thanas" ON "public"."thanas";
 CREATE POLICY "Anyone can view active thanas" ON "public"."thanas" FOR SELECT USING (("is_active" = true));
 
 
@@ -2927,6 +3242,7 @@ CREATE POLICY "Anyone can view active thanas" ON "public"."thanas" FOR SELECT US
 -- Name: shipping_zone_districts Anyone can view zone-district mapping; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone can view zone-district mapping" ON "public"."shipping_zone_districts";
 CREATE POLICY "Anyone can view zone-district mapping" ON "public"."shipping_zone_districts" FOR SELECT USING (true);
 
 
@@ -2934,6 +3250,7 @@ CREATE POLICY "Anyone can view zone-district mapping" ON "public"."shipping_zone
 -- Name: banners Anyone reads active banners; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active banners" ON "public"."banners";
 CREATE POLICY "Anyone reads active banners" ON "public"."banners" FOR SELECT USING (true);
 
 
@@ -2941,6 +3258,7 @@ CREATE POLICY "Anyone reads active banners" ON "public"."banners" FOR SELECT USI
 -- Name: landing_pages Anyone reads active landing pages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active landing pages" ON "public"."landing_pages";
 CREATE POLICY "Anyone reads active landing pages" ON "public"."landing_pages" FOR SELECT USING ((("is_active" = true) OR "public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")));
 
 
@@ -2948,6 +3266,7 @@ CREATE POLICY "Anyone reads active landing pages" ON "public"."landing_pages" FO
 -- Name: payment_methods Anyone reads active payment_methods; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active payment_methods" ON "public"."payment_methods";
 CREATE POLICY "Anyone reads active payment_methods" ON "public"."payment_methods" FOR SELECT USING ((("is_active" = true) OR "public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")));
 
 
@@ -2955,6 +3274,7 @@ CREATE POLICY "Anyone reads active payment_methods" ON "public"."payment_methods
 -- Name: pixels Anyone reads active pixels; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active pixels" ON "public"."pixels";
 CREATE POLICY "Anyone reads active pixels" ON "public"."pixels" FOR SELECT USING ((("is_active" = true) OR "public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")));
 
 
@@ -2962,6 +3282,7 @@ CREATE POLICY "Anyone reads active pixels" ON "public"."pixels" FOR SELECT USING
 -- Name: popups Anyone reads active popups; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active popups" ON "public"."popups";
 CREATE POLICY "Anyone reads active popups" ON "public"."popups" FOR SELECT USING ((("is_active" = true) OR "public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")));
 
 
@@ -2969,6 +3290,7 @@ CREATE POLICY "Anyone reads active popups" ON "public"."popups" FOR SELECT USING
 -- Name: products Anyone reads active products; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active products" ON "public"."products";
 CREATE POLICY "Anyone reads active products" ON "public"."products" FOR SELECT USING (true);
 
 
@@ -2976,6 +3298,7 @@ CREATE POLICY "Anyone reads active products" ON "public"."products" FOR SELECT U
 -- Name: social_links Anyone reads active social links; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads active social links" ON "public"."social_links";
 CREATE POLICY "Anyone reads active social links" ON "public"."social_links" FOR SELECT USING ((("is_active" = true) OR "public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role")));
 
 
@@ -2983,6 +3306,7 @@ CREATE POLICY "Anyone reads active social links" ON "public"."social_links" FOR 
 -- Name: banner_categories Anyone reads banner_categories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads banner_categories" ON "public"."banner_categories";
 CREATE POLICY "Anyone reads banner_categories" ON "public"."banner_categories" FOR SELECT USING (true);
 
 
@@ -2990,6 +3314,7 @@ CREATE POLICY "Anyone reads banner_categories" ON "public"."banner_categories" F
 -- Name: brands Anyone reads brands; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads brands" ON "public"."brands";
 CREATE POLICY "Anyone reads brands" ON "public"."brands" FOR SELECT USING (true);
 
 
@@ -2997,6 +3322,7 @@ CREATE POLICY "Anyone reads brands" ON "public"."brands" FOR SELECT USING (true)
 -- Name: categories Anyone reads categories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads categories" ON "public"."categories";
 CREATE POLICY "Anyone reads categories" ON "public"."categories" FOR SELECT USING (true);
 
 
@@ -3004,6 +3330,7 @@ CREATE POLICY "Anyone reads categories" ON "public"."categories" FOR SELECT USIN
 -- Name: childcategories Anyone reads childcategories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads childcategories" ON "public"."childcategories";
 CREATE POLICY "Anyone reads childcategories" ON "public"."childcategories" FOR SELECT USING (true);
 
 
@@ -3011,6 +3338,7 @@ CREATE POLICY "Anyone reads childcategories" ON "public"."childcategories" FOR S
 -- Name: colors Anyone reads colors; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads colors" ON "public"."colors";
 CREATE POLICY "Anyone reads colors" ON "public"."colors" FOR SELECT USING (true);
 
 
@@ -3018,6 +3346,7 @@ CREATE POLICY "Anyone reads colors" ON "public"."colors" FOR SELECT USING (true)
 -- Name: models Anyone reads models; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads models" ON "public"."models";
 CREATE POLICY "Anyone reads models" ON "public"."models" FOR SELECT USING (true);
 
 
@@ -3025,6 +3354,7 @@ CREATE POLICY "Anyone reads models" ON "public"."models" FOR SELECT USING (true)
 -- Name: order_statuses Anyone reads order_statuses; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads order_statuses" ON "public"."order_statuses";
 CREATE POLICY "Anyone reads order_statuses" ON "public"."order_statuses" FOR SELECT USING (true);
 
 
@@ -3032,6 +3362,7 @@ CREATE POLICY "Anyone reads order_statuses" ON "public"."order_statuses" FOR SEL
 -- Name: pages Anyone reads pages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads pages" ON "public"."pages";
 CREATE POLICY "Anyone reads pages" ON "public"."pages" FOR SELECT USING (true);
 
 
@@ -3039,6 +3370,7 @@ CREATE POLICY "Anyone reads pages" ON "public"."pages" FOR SELECT USING (true);
 -- Name: product_colors Anyone reads product_colors; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads product_colors" ON "public"."product_colors";
 CREATE POLICY "Anyone reads product_colors" ON "public"."product_colors" FOR SELECT USING (true);
 
 
@@ -3046,6 +3378,7 @@ CREATE POLICY "Anyone reads product_colors" ON "public"."product_colors" FOR SEL
 -- Name: product_models Anyone reads product_models; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads product_models" ON "public"."product_models";
 CREATE POLICY "Anyone reads product_models" ON "public"."product_models" FOR SELECT USING (true);
 
 
@@ -3053,6 +3386,7 @@ CREATE POLICY "Anyone reads product_models" ON "public"."product_models" FOR SEL
 -- Name: product_shipping_charges Anyone reads product_shipping_charges; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads product_shipping_charges" ON "public"."product_shipping_charges";
 CREATE POLICY "Anyone reads product_shipping_charges" ON "public"."product_shipping_charges" FOR SELECT USING (true);
 
 
@@ -3060,6 +3394,7 @@ CREATE POLICY "Anyone reads product_shipping_charges" ON "public"."product_shipp
 -- Name: product_sizes Anyone reads product_sizes; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads product_sizes" ON "public"."product_sizes";
 CREATE POLICY "Anyone reads product_sizes" ON "public"."product_sizes" FOR SELECT USING (true);
 
 
@@ -3067,6 +3402,7 @@ CREATE POLICY "Anyone reads product_sizes" ON "public"."product_sizes" FOR SELEC
 -- Name: product_variants Anyone reads product_variants; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads product_variants" ON "public"."product_variants";
 CREATE POLICY "Anyone reads product_variants" ON "public"."product_variants" FOR SELECT USING (true);
 
 
@@ -3074,6 +3410,7 @@ CREATE POLICY "Anyone reads product_variants" ON "public"."product_variants" FOR
 -- Name: shipping_charges Anyone reads shipping_charges; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads shipping_charges" ON "public"."shipping_charges";
 CREATE POLICY "Anyone reads shipping_charges" ON "public"."shipping_charges" FOR SELECT USING (true);
 
 
@@ -3081,6 +3418,7 @@ CREATE POLICY "Anyone reads shipping_charges" ON "public"."shipping_charges" FOR
 -- Name: site_settings Anyone reads site settings; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads site settings" ON "public"."site_settings";
 CREATE POLICY "Anyone reads site settings" ON "public"."site_settings" FOR SELECT USING (true);
 
 
@@ -3088,6 +3426,7 @@ CREATE POLICY "Anyone reads site settings" ON "public"."site_settings" FOR SELEC
 -- Name: sizes Anyone reads sizes; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads sizes" ON "public"."sizes";
 CREATE POLICY "Anyone reads sizes" ON "public"."sizes" FOR SELECT USING (true);
 
 
@@ -3095,6 +3434,7 @@ CREATE POLICY "Anyone reads sizes" ON "public"."sizes" FOR SELECT USING (true);
 -- Name: subcategories Anyone reads subcategories; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads subcategories" ON "public"."subcategories";
 CREATE POLICY "Anyone reads subcategories" ON "public"."subcategories" FOR SELECT USING (true);
 
 
@@ -3102,6 +3442,7 @@ CREATE POLICY "Anyone reads subcategories" ON "public"."subcategories" FOR SELEC
 -- Name: variant_shipping_charges Anyone reads variant_shipping_charges; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Anyone reads variant_shipping_charges" ON "public"."variant_shipping_charges";
 CREATE POLICY "Anyone reads variant_shipping_charges" ON "public"."variant_shipping_charges" FOR SELECT USING (true);
 
 
@@ -3109,6 +3450,7 @@ CREATE POLICY "Anyone reads variant_shipping_charges" ON "public"."variant_shipp
 -- Name: permissions Authenticated read permissions; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Authenticated read permissions" ON "public"."permissions";
 CREATE POLICY "Authenticated read permissions" ON "public"."permissions" FOR SELECT TO "authenticated" USING (true);
 
 
@@ -3116,6 +3458,7 @@ CREATE POLICY "Authenticated read permissions" ON "public"."permissions" FOR SEL
 -- Name: role_permissions Authenticated read role_permissions; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Authenticated read role_permissions" ON "public"."role_permissions";
 CREATE POLICY "Authenticated read role_permissions" ON "public"."role_permissions" FOR SELECT TO "authenticated" USING (true);
 
 
@@ -3123,6 +3466,7 @@ CREATE POLICY "Authenticated read role_permissions" ON "public"."role_permission
 -- Name: customer_messages Customers mark own read; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Customers mark own read" ON "public"."customer_messages";
 CREATE POLICY "Customers mark own read" ON "public"."customer_messages" FOR UPDATE TO "authenticated" USING (("customer_id" = "auth"."uid"())) WITH CHECK (("customer_id" = "auth"."uid"()));
 
 
@@ -3130,6 +3474,7 @@ CREATE POLICY "Customers mark own read" ON "public"."customer_messages" FOR UPDA
 -- Name: customer_messages Customers read own messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Customers read own messages" ON "public"."customer_messages";
 CREATE POLICY "Customers read own messages" ON "public"."customer_messages" FOR SELECT TO "authenticated" USING (("customer_id" = "auth"."uid"()));
 
 
@@ -3137,6 +3482,7 @@ CREATE POLICY "Customers read own messages" ON "public"."customer_messages" FOR 
 -- Name: customer_messages Customers send own messages; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Customers send own messages" ON "public"."customer_messages";
 CREATE POLICY "Customers send own messages" ON "public"."customer_messages" FOR INSERT TO "authenticated" WITH CHECK ((("customer_id" = "auth"."uid"()) AND ("sender" = 'customer'::"text")));
 
 
@@ -3144,6 +3490,7 @@ CREATE POLICY "Customers send own messages" ON "public"."customer_messages" FOR 
 -- Name: order_items Customers view own order items; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Customers view own order items" ON "public"."order_items";
 CREATE POLICY "Customers view own order items" ON "public"."order_items" FOR SELECT TO "authenticated" USING (("order_id" IN ( SELECT "orders"."id"
    FROM "public"."orders"
   WHERE (("orders"."user_id" = "auth"."uid"()) OR ("orders"."phone" IN ( SELECT "profiles"."phone"
@@ -3155,6 +3502,7 @@ CREATE POLICY "Customers view own order items" ON "public"."order_items" FOR SEL
 -- Name: orders Customers view own orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Customers view own orders" ON "public"."orders";
 CREATE POLICY "Customers view own orders" ON "public"."orders" FOR SELECT TO "authenticated" USING ((("user_id" = "auth"."uid"()) OR ("phone" IN ( SELECT "profiles"."phone"
    FROM "public"."profiles"
   WHERE (("profiles"."user_id" = "auth"."uid"()) AND ("profiles"."phone" IS NOT NULL))))));
@@ -3164,6 +3512,7 @@ CREATE POLICY "Customers view own orders" ON "public"."orders" FOR SELECT TO "au
 -- Name: coupons Public read active coupons; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Public read active coupons" ON "public"."coupons";
 CREATE POLICY "Public read active coupons" ON "public"."coupons" FOR SELECT USING (("is_active" = true));
 
 
@@ -3171,6 +3520,7 @@ CREATE POLICY "Public read active coupons" ON "public"."coupons" FOR SELECT USIN
 -- Name: coupon_products Public read coupon_products; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Public read coupon_products" ON "public"."coupon_products";
 CREATE POLICY "Public read coupon_products" ON "public"."coupon_products" FOR SELECT USING (true);
 
 
@@ -3178,6 +3528,7 @@ CREATE POLICY "Public read coupon_products" ON "public"."coupon_products" FOR SE
 -- Name: courier_shipments Staff and admins insert shipments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Staff and admins insert shipments" ON "public"."courier_shipments";
 CREATE POLICY "Staff and admins insert shipments" ON "public"."courier_shipments" FOR INSERT TO "authenticated" WITH CHECK (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -3185,6 +3536,7 @@ CREATE POLICY "Staff and admins insert shipments" ON "public"."courier_shipments
 -- Name: courier_shipments Staff and admins read shipments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Staff and admins read shipments" ON "public"."courier_shipments";
 CREATE POLICY "Staff and admins read shipments" ON "public"."courier_shipments" FOR SELECT TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -3192,6 +3544,7 @@ CREATE POLICY "Staff and admins read shipments" ON "public"."courier_shipments" 
 -- Name: courier_shipments Staff and admins update shipments; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Staff and admins update shipments" ON "public"."courier_shipments";
 CREATE POLICY "Staff and admins update shipments" ON "public"."courier_shipments" FOR UPDATE TO "authenticated" USING (("public"."has_role"("auth"."uid"(), 'admin'::"public"."app_role") OR "public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role")));
 
 
@@ -3199,6 +3552,7 @@ CREATE POLICY "Staff and admins update shipments" ON "public"."courier_shipments
 -- Name: order_items Staff read order items; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Staff read order items" ON "public"."order_items";
 CREATE POLICY "Staff read order items" ON "public"."order_items" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role"));
 
 
@@ -3206,6 +3560,7 @@ CREATE POLICY "Staff read order items" ON "public"."order_items" FOR SELECT TO "
 -- Name: orders Staff read orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Staff read orders" ON "public"."orders";
 CREATE POLICY "Staff read orders" ON "public"."orders" FOR SELECT TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role"));
 
 
@@ -3213,6 +3568,7 @@ CREATE POLICY "Staff read orders" ON "public"."orders" FOR SELECT TO "authentica
 -- Name: orders Staff update orders; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Staff update orders" ON "public"."orders";
 CREATE POLICY "Staff update orders" ON "public"."orders" FOR UPDATE TO "authenticated" USING ("public"."has_role"("auth"."uid"(), 'staff'::"public"."app_role"));
 
 
@@ -3220,6 +3576,7 @@ CREATE POLICY "Staff update orders" ON "public"."orders" FOR UPDATE TO "authenti
 -- Name: notifications Users delete own notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Users delete own notifications" ON "public"."notifications";
 CREATE POLICY "Users delete own notifications" ON "public"."notifications" FOR DELETE TO "authenticated" USING ((("audience" = 'user'::"text") AND ("user_id" = "auth"."uid"())));
 
 
@@ -3227,6 +3584,7 @@ CREATE POLICY "Users delete own notifications" ON "public"."notifications" FOR D
 -- Name: notifications Users read own notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Users read own notifications" ON "public"."notifications";
 CREATE POLICY "Users read own notifications" ON "public"."notifications" FOR SELECT TO "authenticated" USING ((("audience" = 'user'::"text") AND ("user_id" = "auth"."uid"())));
 
 
@@ -3234,6 +3592,7 @@ CREATE POLICY "Users read own notifications" ON "public"."notifications" FOR SEL
 -- Name: profiles Users see own profile; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Users see own profile" ON "public"."profiles";
 CREATE POLICY "Users see own profile" ON "public"."profiles" FOR SELECT TO "authenticated" USING (("auth"."uid"() = "user_id"));
 
 
@@ -3241,6 +3600,7 @@ CREATE POLICY "Users see own profile" ON "public"."profiles" FOR SELECT TO "auth
 -- Name: user_roles Users see own roles; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Users see own roles" ON "public"."user_roles";
 CREATE POLICY "Users see own roles" ON "public"."user_roles" FOR SELECT TO "authenticated" USING (("auth"."uid"() = "user_id"));
 
 
@@ -3248,6 +3608,7 @@ CREATE POLICY "Users see own roles" ON "public"."user_roles" FOR SELECT TO "auth
 -- Name: notifications Users update own notifications; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Users update own notifications" ON "public"."notifications";
 CREATE POLICY "Users update own notifications" ON "public"."notifications" FOR UPDATE TO "authenticated" USING ((("audience" = 'user'::"text") AND ("user_id" = "auth"."uid"()))) WITH CHECK ((("audience" = 'user'::"text") AND ("user_id" = "auth"."uid"())));
 
 
@@ -3255,6 +3616,7 @@ CREATE POLICY "Users update own notifications" ON "public"."notifications" FOR U
 -- Name: profiles Users update own profile; Type: POLICY; Schema: public; Owner: -
 --
 
+DROP POLICY IF EXISTS "Users update own profile" ON "public"."profiles";
 CREATE POLICY "Users update own profile" ON "public"."profiles" FOR UPDATE TO "authenticated" USING (("auth"."uid"() = "user_id"));
 
 
@@ -3562,19 +3924,23 @@ ON CONFLICT (id) DO NOTHING;
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='storage' AND tablename='objects' AND policyname='Public read public buckets') THEN
-    CREATE POLICY "Public read public buckets" ON storage.objects
+    DROP POLICY IF EXISTS "Public read public buckets" ON storage.objects;
+CREATE POLICY "Public read public buckets" ON storage.objects
       FOR SELECT USING (bucket_id IN ('product-images','product-videos','product-demos','site-assets','avatars'));
   END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='storage' AND tablename='objects' AND policyname='Authenticated upload public buckets') THEN
-    CREATE POLICY "Authenticated upload public buckets" ON storage.objects
+    DROP POLICY IF EXISTS "Authenticated upload public buckets" ON storage.objects;
+CREATE POLICY "Authenticated upload public buckets" ON storage.objects
       FOR INSERT TO authenticated WITH CHECK (bucket_id IN ('product-images','product-videos','product-demos','site-assets','avatars'));
   END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='storage' AND tablename='objects' AND policyname='Authenticated update public buckets') THEN
-    CREATE POLICY "Authenticated update public buckets" ON storage.objects
+    DROP POLICY IF EXISTS "Authenticated update public buckets" ON storage.objects;
+CREATE POLICY "Authenticated update public buckets" ON storage.objects
       FOR UPDATE TO authenticated USING (bucket_id IN ('product-images','product-videos','product-demos','site-assets','avatars'));
   END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='storage' AND tablename='objects' AND policyname='Authenticated delete public buckets') THEN
-    CREATE POLICY "Authenticated delete public buckets" ON storage.objects
+    DROP POLICY IF EXISTS "Authenticated delete public buckets" ON storage.objects;
+CREATE POLICY "Authenticated delete public buckets" ON storage.objects
       FOR DELETE TO authenticated USING (bucket_id IN ('product-images','product-videos','product-demos','site-assets','avatars'));
   END IF;
 END $$;
@@ -3622,10 +3988,12 @@ ALTER TABLE public.user_password_otps ENABLE ROW LEVEL SECURITY;
 -- These ensure: profile auto-creation + first-signup becomes admin
 -- ============================================================
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
+DROP TRIGGER IF EXISTS on_auth_user_created_assign_admin ON auth.users;
 DROP TRIGGER IF EXISTS on_auth_user_created_assign_admin ON auth.users;
 CREATE TRIGGER on_auth_user_created_assign_admin
   AFTER INSERT ON auth.users

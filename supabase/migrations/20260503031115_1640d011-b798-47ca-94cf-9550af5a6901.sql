@@ -26,6 +26,7 @@ END;
 $$;
 
 DROP TRIGGER IF EXISTS trg_guard_user_role_changes ON public.user_roles;
+DROP TRIGGER IF EXISTS trg_guard_user_role_changes ON public.user_roles;
 CREATE TRIGGER trg_guard_user_role_changes
 BEFORE INSERT OR UPDATE ON public.user_roles
 FOR EACH ROW EXECUTE FUNCTION public.guard_user_role_changes();
