@@ -39,4 +39,8 @@ ALTER TABLE public.shipping_charges ADD COLUMN IF NOT EXISTS zone_id uuid;
 ALTER TABLE public.order_statuses ADD COLUMN IF NOT EXISTS key text;
 ALTER TABLE public.order_statuses ADD COLUMN IF NOT EXISTS label text;
 ALTER TABLE public.order_statuses ADD COLUMN IF NOT EXISTS is_active boolean NOT NULL DEFAULT true;
-UPDATE public.order_statuses SET label = COALESCE(label, name), key = COALESCE(key, lower(replace(name,' ','_'))) WHERE label IS NULL OR key IS NULL;
+DO $do$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema='public' AND table_name='order_statuses' AND column_name='name') THEN
+    EXECUTE 'UPDATE public.order_statuses SET label = COALESCE(label, name), key = COALESCE(key, lower(replace(name,'' '',''_''))) WHERE label IS NULL OR key IS NULL';
+  END IF;
+END $do$;
