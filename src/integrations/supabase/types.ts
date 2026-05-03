@@ -461,8 +461,10 @@ export type Database = {
           id: string
           is_blocked: boolean | null
           name: string
+          notes: string | null
           phone: string | null
           thana: string | null
+          total_orders: number
           total_spent: number | null
           updated_at: string
           user_id: string | null
@@ -475,8 +477,10 @@ export type Database = {
           id?: string
           is_blocked?: boolean | null
           name: string
+          notes?: string | null
           phone?: string | null
           thana?: string | null
+          total_orders?: number
           total_spent?: number | null
           updated_at?: string
           user_id?: string | null
@@ -489,8 +493,10 @@ export type Database = {
           id?: string
           is_blocked?: boolean | null
           name?: string
+          notes?: string | null
           phone?: string | null
           thana?: string | null
+          total_orders?: number
           total_spent?: number | null
           updated_at?: string
           user_id?: string | null
@@ -805,21 +811,30 @@ export type Database = {
           color: string | null
           created_at: string
           id: string
-          name: string
+          is_active: boolean
+          key: string | null
+          label: string | null
+          name: string | null
           sort_order: number | null
         }
         Insert: {
           color?: string | null
           created_at?: string
           id?: string
-          name: string
+          is_active?: boolean
+          key?: string | null
+          label?: string | null
+          name?: string | null
           sort_order?: number | null
         }
         Update: {
           color?: string | null
           created_at?: string
           id?: string
-          name?: string
+          is_active?: boolean
+          key?: string | null
+          label?: string | null
+          name?: string | null
           sort_order?: number | null
         }
         Relationships: []
@@ -841,6 +856,7 @@ export type Database = {
           payment_status: string | null
           phone: string | null
           shipping_charge: number | null
+          shipping_cost: number
           status: Database["public"]["Enums"]["order_status"] | null
           subtotal: number | null
           thana: string | null
@@ -865,6 +881,7 @@ export type Database = {
           payment_status?: string | null
           phone?: string | null
           shipping_charge?: number | null
+          shipping_cost?: number
           status?: Database["public"]["Enums"]["order_status"] | null
           subtotal?: number | null
           thana?: string | null
@@ -889,6 +906,7 @@ export type Database = {
           payment_status?: string | null
           phone?: string | null
           shipping_charge?: number | null
+          shipping_cost?: number
           status?: Database["public"]["Enums"]["order_status"] | null
           subtotal?: number | null
           thana?: string | null
@@ -999,11 +1017,15 @@ export type Database = {
           address: string | null
           cart_items: Json | null
           created_at: string
+          created_order_id: string | null
           customer_name: string | null
           id: string
           notes: string | null
           payment_method: string | null
           phone: string | null
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
           status: string | null
           total: number | null
           transaction_id: string | null
@@ -1012,11 +1034,15 @@ export type Database = {
           address?: string | null
           cart_items?: Json | null
           created_at?: string
+          created_order_id?: string | null
           customer_name?: string | null
           id?: string
           notes?: string | null
           payment_method?: string | null
           phone?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           status?: string | null
           total?: number | null
           transaction_id?: string | null
@@ -1025,11 +1051,15 @@ export type Database = {
           address?: string | null
           cart_items?: Json | null
           created_at?: string
+          created_order_id?: string | null
           customer_name?: string | null
           id?: string
           notes?: string | null
           payment_method?: string | null
           phone?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           status?: string | null
           total?: number | null
           transaction_id?: string | null
@@ -1041,22 +1071,25 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          key: string | null
           label: string
-          menu_key: string
+          menu_key: string | null
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
+          key?: string | null
           label: string
-          menu_key: string
+          menu_key?: string | null
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
+          key?: string | null
           label?: string
-          menu_key?: string
+          menu_key?: string | null
         }
         Relationships: []
       }
@@ -1065,6 +1098,7 @@ export type Database = {
           created_at: string
           custom_url: string | null
           device_target: string | null
+          fire_count: number
           id: string
           is_active: boolean | null
           name: string
@@ -1081,6 +1115,7 @@ export type Database = {
           created_at?: string
           custom_url?: string | null
           device_target?: string | null
+          fire_count?: number
           id?: string
           is_active?: boolean | null
           name: string
@@ -1097,6 +1132,7 @@ export type Database = {
           created_at?: string
           custom_url?: string | null
           device_target?: string | null
+          fire_count?: number
           id?: string
           is_active?: boolean | null
           name?: string
@@ -1194,7 +1230,9 @@ export type Database = {
           changed_by: string | null
           created_at: string
           id: string
+          new_discount: number | null
           new_price: number | null
+          old_discount: number | null
           old_price: number | null
           product_id: string | null
         }
@@ -1202,7 +1240,9 @@ export type Database = {
           changed_by?: string | null
           created_at?: string
           id?: string
+          new_discount?: number | null
           new_price?: number | null
+          old_discount?: number | null
           old_price?: number | null
           product_id?: string | null
         }
@@ -1210,7 +1250,9 @@ export type Database = {
           changed_by?: string | null
           created_at?: string
           id?: string
+          new_discount?: number | null
           new_price?: number | null
+          old_discount?: number | null
           old_price?: number | null
           product_id?: string | null
         }
@@ -1538,11 +1580,13 @@ export type Database = {
           city: string | null
           created_at: string
           display_name: string | null
+          district: string | null
           email: string | null
           id: string
           is_active: boolean | null
           phone: string | null
           postal_code: string | null
+          thana: string | null
           updated_at: string
           user_id: string
         }
@@ -1552,11 +1596,13 @@ export type Database = {
           city?: string | null
           created_at?: string
           display_name?: string | null
+          district?: string | null
           email?: string | null
           id?: string
           is_active?: boolean | null
           phone?: string | null
           postal_code?: string | null
+          thana?: string | null
           updated_at?: string
           user_id: string
         }
@@ -1566,11 +1612,13 @@ export type Database = {
           city?: string | null
           created_at?: string
           display_name?: string | null
+          district?: string | null
           email?: string | null
           id?: string
           is_active?: boolean | null
           phone?: string | null
           postal_code?: string | null
+          thana?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -1608,24 +1656,36 @@ export type Database = {
       shipping_charges: {
         Row: {
           amount: number
+          charge: number
           created_at: string
           id: string
           is_active: boolean | null
           name: string
+          sort_order: number
+          zone: string | null
+          zone_id: string | null
         }
         Insert: {
           amount?: number
+          charge?: number
           created_at?: string
           id?: string
           is_active?: boolean | null
           name: string
+          sort_order?: number
+          zone?: string | null
+          zone_id?: string | null
         }
         Update: {
           amount?: number
+          charge?: number
           created_at?: string
           id?: string
           is_active?: boolean | null
           name?: string
+          sort_order?: number
+          zone?: string | null
+          zone_id?: string | null
         }
         Relationships: []
       }
@@ -1775,26 +1835,35 @@ export type Database = {
       }
       social_links: {
         Row: {
+          color: string | null
           created_at: string
+          icon_key: string | null
           id: string
           is_active: boolean | null
-          platform: string
+          name: string | null
+          platform: string | null
           sort_order: number | null
           url: string
         }
         Insert: {
+          color?: string | null
           created_at?: string
+          icon_key?: string | null
           id?: string
           is_active?: boolean | null
-          platform: string
+          name?: string | null
+          platform?: string | null
           sort_order?: number | null
           url: string
         }
         Update: {
+          color?: string | null
           created_at?: string
+          icon_key?: string | null
           id?: string
           is_active?: boolean | null
-          platform?: string
+          name?: string | null
+          platform?: string | null
           sort_order?: number | null
           url?: string
         }
@@ -1995,7 +2064,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user" | "staff"
+      app_role: "admin" | "user" | "staff" | "moderator" | "customer"
       order_status:
         | "pending"
         | "confirmed"
@@ -2135,7 +2204,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user", "staff"],
+      app_role: ["admin", "user", "staff", "moderator", "customer"],
       order_status: [
         "pending",
         "confirmed",

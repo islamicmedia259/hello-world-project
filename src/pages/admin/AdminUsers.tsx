@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Pencil, Trash2, ThumbsDown, ThumbsUp, KeyRound } from "lucide-react";
 
-type Role = "admin" | "staff" | "user";
+type Role = "admin" | "moderator" | "staff" | "customer";
 type Row = {
   user_id: string;
   display_name: string | null;
@@ -37,7 +37,7 @@ export default function AdminUsers() {
     const map = new Map<string, Role>();
     (roles ?? []).forEach((r: any) => {
       const cur = map.get(r.user_id);
-      const order = { admin: 3, staff: 2, user: 1 } as const;
+      const order = { admin: 4, moderator: 3, staff: 2, customer: 1, user: 0 } as const;
       if (!cur || order[r.role as Role] > order[cur]) map.set(r.user_id, r.role);
     });
     setRows((profiles ?? []).map((p: any) => ({
@@ -45,7 +45,7 @@ export default function AdminUsers() {
       display_name: p.display_name,
       email: p.email,
       is_active: p.is_active,
-      role: map.get(p.user_id) ?? "user",
+      role: map.get(p.user_id) ?? "customer",
     })));
     setLoading(false);
   };
@@ -64,7 +64,7 @@ export default function AdminUsers() {
 
   const openCreate = () => {
     setEditing(null);
-    setForm({ email: "", password: "", display_name: "", role: "staff" });
+    setForm({ email: "", password: "", display_name: "", role: "moderator" });
     setOpen(true);
   };
   const openEdit = (r: Row) => {
@@ -239,8 +239,9 @@ export default function AdminUsers() {
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="moderator">Moderator</SelectItem>
                   <SelectItem value="staff">Staff</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="customer">Customer</SelectItem>
                 </SelectContent>
               </Select>
             </div>
