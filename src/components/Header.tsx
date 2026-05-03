@@ -16,6 +16,12 @@ interface SuggestProduct {
   image_url: string | null;
 }
 
+interface NavCategory {
+  id: string;
+  name: string;
+  slug: string | null;
+}
+
 export default function Header() {
   const { count, openCart } = useCart();
   const { session } = useCustomerAuth();
@@ -26,6 +32,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [navCategories, setNavCategories] = useState<NavCategory[]>([]);
   const wrapRef = useRef<HTMLDivElement>(null);
   const mobileWrapRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -35,6 +42,15 @@ export default function Header() {
       const { data } = await supabase.from("site_settings").select("logo_url,site_name").limit(1).maybeSingle();
       if (data?.logo_url && data.logo_url.trim()) setLogoUrl(data.logo_url.trim());
       if (data?.site_name) setSiteName(data.site_name);
+    })();
+    (async () => {
+      const { data } = await supabase
+        .from("categories")
+        .select("id,name,slug,sort_order")
+        .eq("is_active", true)
+        .order("sort_order")
+        .order("name");
+      setNavCategories((data as NavCategory[]) || []);
     })();
   }, []);
 
@@ -182,11 +198,11 @@ export default function Header() {
       <nav className="hidden md:block bg-primary text-primary-foreground">
         <div className="container-page py-2.5 flex gap-6 text-sm font-medium overflow-x-auto">
           <Link to="/" className="hover:opacity-80">Home</Link>
-          <Link to="/shop?cat=hsc" className="hover:opacity-80">HSC</Link>
-          <Link to="/shop?cat=science" className="hover:opacity-80">Science</Link>
-          <Link to="/shop?cat=commerce" className="hover:opacity-80">Commerce</Link>
-          <Link to="/shop?cat=arts" className="hover:opacity-80">Arts</Link>
-          <Link to="/shop" className="hover:opacity-80">All Books</Link>
+          {navCategories.map((c) => (
+            <Link key={c.id} to={`/shop?cat=${c.slug ?? ""}`} className="hover:opacity-80 whitespace-nowrap">
+              {c.name}
+            </Link>
+          ))}
         </div>
       </nav>
 
