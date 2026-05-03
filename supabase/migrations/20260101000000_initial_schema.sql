@@ -1213,7 +1213,7 @@ CREATE TABLE IF NOT EXISTS "public"."variant_shipping_charges" (
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."banner_categories"
     ADD CONSTRAINT "banner_categories_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1223,7 +1223,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."banner_categories"
     ADD CONSTRAINT "banner_categories_slug_key" UNIQUE ("slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1233,7 +1233,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."banners"
     ADD CONSTRAINT "banners_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1243,7 +1243,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."brands"
     ADD CONSTRAINT "brands_name_key" UNIQUE ("name");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1253,7 +1253,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."brands"
     ADD CONSTRAINT "brands_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1263,7 +1263,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."brands"
     ADD CONSTRAINT "brands_slug_key" UNIQUE ("slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1273,7 +1273,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_name_key" UNIQUE ("name");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1283,7 +1283,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1293,7 +1293,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_slug_key" UNIQUE ("slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1303,7 +1303,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."childcategories"
     ADD CONSTRAINT "childcategories_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1313,7 +1313,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."childcategories"
     ADD CONSTRAINT "childcategories_subcategory_id_slug_key" UNIQUE ("subcategory_id", "slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1323,7 +1323,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."colors"
     ADD CONSTRAINT "colors_name_key" UNIQUE ("name");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1333,7 +1333,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."colors"
     ADD CONSTRAINT "colors_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1343,7 +1343,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."contact_messages"
     ADD CONSTRAINT "contact_messages_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1353,7 +1353,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_coupon_id_product_id_key" UNIQUE ("coupon_id", "product_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1363,7 +1363,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1373,7 +1373,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupons"
     ADD CONSTRAINT "coupons_code_key" UNIQUE ("code");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1383,7 +1383,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupons"
     ADD CONSTRAINT "coupons_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1393,7 +1393,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."courier_shipments"
     ADD CONSTRAINT "courier_shipments_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1403,7 +1403,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."customer_messages"
     ADD CONSTRAINT "customer_messages_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1413,7 +1413,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."customers"
     ADD CONSTRAINT "customers_phone_key" UNIQUE ("phone");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1423,7 +1423,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."customers"
     ADD CONSTRAINT "customers_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1433,7 +1433,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."districts"
     ADD CONSTRAINT "districts_name_key" UNIQUE ("name");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1443,7 +1443,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."districts"
     ADD CONSTRAINT "districts_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1453,7 +1453,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."email_logs"
     ADD CONSTRAINT "email_logs_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1463,7 +1463,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."incomplete_orders"
     ADD CONSTRAINT "incomplete_orders_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1473,7 +1473,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."landing_pages"
     ADD CONSTRAINT "landing_pages_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1483,7 +1483,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."landing_pages"
     ADD CONSTRAINT "landing_pages_slug_key" UNIQUE ("slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1493,7 +1493,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."models"
     ADD CONSTRAINT "models_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1503,7 +1503,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."newsletter_subscribers"
     ADD CONSTRAINT "newsletter_subscribers_email_key" UNIQUE ("email");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1513,7 +1513,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."newsletter_subscribers"
     ADD CONSTRAINT "newsletter_subscribers_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1523,7 +1523,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1533,7 +1533,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_items"
     ADD CONSTRAINT "order_items_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1543,7 +1543,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_statuses"
     ADD CONSTRAINT "order_statuses_key_key" UNIQUE ("key");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1553,7 +1553,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_statuses"
     ADD CONSTRAINT "order_statuses_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1563,7 +1563,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."orders"
     ADD CONSTRAINT "orders_invoice_no_key" UNIQUE ("invoice_no");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1573,7 +1573,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."orders"
     ADD CONSTRAINT "orders_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1583,7 +1583,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pages"
     ADD CONSTRAINT "pages_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1593,7 +1593,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pages"
     ADD CONSTRAINT "pages_slug_key" UNIQUE ("slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1603,7 +1603,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."payment_methods"
     ADD CONSTRAINT "payment_methods_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1613,7 +1613,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pending_payments"
     ADD CONSTRAINT "pending_payments_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1623,7 +1623,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."permissions"
     ADD CONSTRAINT "permissions_key_key" UNIQUE ("key");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1633,7 +1633,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."permissions"
     ADD CONSTRAINT "permissions_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1643,7 +1643,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."pixels"
     ADD CONSTRAINT "pixels_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1653,7 +1653,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."popups"
     ADD CONSTRAINT "popups_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1663,7 +1663,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."price_history"
     ADD CONSTRAINT "price_history_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1673,7 +1673,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_colors"
     ADD CONSTRAINT "product_colors_pkey" PRIMARY KEY ("product_id", "color_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1683,7 +1683,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_models"
     ADD CONSTRAINT "product_models_pkey" PRIMARY KEY ("product_id", "model_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1693,7 +1693,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_shipping_charges"
     ADD CONSTRAINT "product_shipping_charges_pkey" PRIMARY KEY ("product_id", "shipping_charge_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1703,7 +1703,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_sizes"
     ADD CONSTRAINT "product_sizes_pkey" PRIMARY KEY ("product_id", "size_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1713,7 +1713,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1723,7 +1723,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1733,7 +1733,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1743,7 +1743,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_user_id_key" UNIQUE ("user_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1753,7 +1753,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."profiles"
     ADD CONSTRAINT "profiles_user_id_unique" UNIQUE ("user_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1763,7 +1763,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."role_permissions"
     ADD CONSTRAINT "role_permissions_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1773,7 +1773,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."role_permissions"
     ADD CONSTRAINT "role_permissions_role_permission_id_key" UNIQUE ("role", "permission_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1783,7 +1783,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_charges"
     ADD CONSTRAINT "shipping_charges_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1793,7 +1793,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1803,7 +1803,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_zone_id_district_id_key" UNIQUE ("zone_id", "district_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1813,7 +1813,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zones"
     ADD CONSTRAINT "shipping_zones_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1823,7 +1823,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."site_settings"
     ADD CONSTRAINT "site_settings_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1833,7 +1833,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."sizes"
     ADD CONSTRAINT "sizes_name_key" UNIQUE ("name");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1843,7 +1843,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."sizes"
     ADD CONSTRAINT "sizes_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1853,7 +1853,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."social_links"
     ADD CONSTRAINT "social_links_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1863,7 +1863,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."subcategories"
     ADD CONSTRAINT "subcategories_category_id_slug_key" UNIQUE ("category_id", "slug");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1873,7 +1873,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."subcategories"
     ADD CONSTRAINT "subcategories_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1883,7 +1883,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."thanas"
     ADD CONSTRAINT "thanas_district_id_name_key" UNIQUE ("district_id", "name");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1893,7 +1893,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."thanas"
     ADD CONSTRAINT "thanas_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1903,7 +1903,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."user_roles"
     ADD CONSTRAINT "user_roles_pkey" PRIMARY KEY ("id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1913,7 +1913,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."user_roles"
     ADD CONSTRAINT "user_roles_user_id_role_key" UNIQUE ("user_id", "role");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -1923,7 +1923,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."variant_shipping_charges"
     ADD CONSTRAINT "variant_shipping_charges_pkey" PRIMARY KEY ("variant_id", "shipping_charge_id");
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2285,7 +2285,7 @@ CREATE TRIGGER "upsert_customer_after_order" AFTER INSERT ON "public"."orders" F
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."childcategories"
     ADD CONSTRAINT "childcategories_subcategory_id_fkey" FOREIGN KEY ("subcategory_id") REFERENCES "public"."subcategories"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2295,7 +2295,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_coupon_id_fkey" FOREIGN KEY ("coupon_id") REFERENCES "public"."coupons"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2305,7 +2305,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."coupon_products"
     ADD CONSTRAINT "coupon_products_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2315,7 +2315,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."courier_shipments"
     ADD CONSTRAINT "courier_shipments_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2325,7 +2325,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_items"
     ADD CONSTRAINT "order_items_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2335,7 +2335,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."order_items"
     ADD CONSTRAINT "order_items_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2345,7 +2345,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."price_history"
     ADD CONSTRAINT "price_history_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2355,7 +2355,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_colors"
     ADD CONSTRAINT "product_colors_color_id_fkey" FOREIGN KEY ("color_id") REFERENCES "public"."colors"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2365,7 +2365,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_colors"
     ADD CONSTRAINT "product_colors_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2375,7 +2375,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_models"
     ADD CONSTRAINT "product_models_model_id_fkey" FOREIGN KEY ("model_id") REFERENCES "public"."models"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2385,7 +2385,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_models"
     ADD CONSTRAINT "product_models_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2395,7 +2395,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_shipping_charges"
     ADD CONSTRAINT "product_shipping_charges_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2405,7 +2405,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_shipping_charges"
     ADD CONSTRAINT "product_shipping_charges_shipping_charge_id_fkey" FOREIGN KEY ("shipping_charge_id") REFERENCES "public"."shipping_charges"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2415,7 +2415,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_sizes"
     ADD CONSTRAINT "product_sizes_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2425,7 +2425,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_sizes"
     ADD CONSTRAINT "product_sizes_size_id_fkey" FOREIGN KEY ("size_id") REFERENCES "public"."sizes"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2435,7 +2435,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_color_id_fkey" FOREIGN KEY ("color_id") REFERENCES "public"."colors"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2445,7 +2445,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_model_id_fkey" FOREIGN KEY ("model_id") REFERENCES "public"."models"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2455,7 +2455,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2465,7 +2465,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."product_variants"
     ADD CONSTRAINT "product_variants_size_id_fkey" FOREIGN KEY ("size_id") REFERENCES "public"."sizes"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2475,7 +2475,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "public"."brands"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2485,7 +2485,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2495,7 +2495,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_childcategory_id_fkey" FOREIGN KEY ("childcategory_id") REFERENCES "public"."childcategories"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2505,7 +2505,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."products"
     ADD CONSTRAINT "products_subcategory_id_fkey" FOREIGN KEY ("subcategory_id") REFERENCES "public"."subcategories"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2515,7 +2515,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."role_permissions"
     ADD CONSTRAINT "role_permissions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "public"."permissions"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2525,7 +2525,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_charges"
     ADD CONSTRAINT "shipping_charges_zone_id_fkey" FOREIGN KEY ("zone_id") REFERENCES "public"."shipping_zones"("id") ON DELETE SET NULL;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2535,7 +2535,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_district_id_fkey" FOREIGN KEY ("district_id") REFERENCES "public"."districts"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2545,7 +2545,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."shipping_zone_districts"
     ADD CONSTRAINT "shipping_zone_districts_zone_id_fkey" FOREIGN KEY ("zone_id") REFERENCES "public"."shipping_zones"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2555,7 +2555,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."subcategories"
     ADD CONSTRAINT "subcategories_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2565,7 +2565,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."thanas"
     ADD CONSTRAINT "thanas_district_id_fkey" FOREIGN KEY ("district_id") REFERENCES "public"."districts"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2575,7 +2575,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."user_roles"
     ADD CONSTRAINT "user_roles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2585,7 +2585,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."variant_shipping_charges"
     ADD CONSTRAINT "variant_shipping_charges_shipping_charge_id_fkey" FOREIGN KEY ("shipping_charge_id") REFERENCES "public"."shipping_charges"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
@@ -2595,7 +2595,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $
 DO $idem$ BEGIN
 ALTER TABLE ONLY "public"."variant_shipping_charges"
     ADD CONSTRAINT "variant_shipping_charges_variant_id_fkey" FOREIGN KEY ("variant_id") REFERENCES "public"."product_variants"("id") ON DELETE CASCADE;
-EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; END $idem$;
+EXCEPTION WHEN duplicate_object THEN NULL; WHEN duplicate_table THEN NULL; WHEN invalid_table_definition THEN NULL; WHEN duplicate_column THEN NULL; WHEN undefined_column THEN NULL; WHEN undefined_table THEN NULL; END $idem$;
 
 
 --
