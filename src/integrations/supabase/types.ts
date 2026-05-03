@@ -814,7 +814,7 @@ export type Database = {
           is_active: boolean
           key: string | null
           label: string | null
-          name: string
+          name: string | null
           sort_order: number | null
         }
         Insert: {
@@ -824,7 +824,7 @@ export type Database = {
           is_active?: boolean
           key?: string | null
           label?: string | null
-          name: string
+          name?: string | null
           sort_order?: number | null
         }
         Update: {
@@ -834,7 +834,7 @@ export type Database = {
           is_active?: boolean
           key?: string | null
           label?: string | null
-          name?: string
+          name?: string | null
           sort_order?: number | null
         }
         Relationships: []
@@ -1073,7 +1073,7 @@ export type Database = {
           id: string
           key: string | null
           label: string
-          menu_key: string
+          menu_key: string | null
         }
         Insert: {
           created_at?: string
@@ -1081,7 +1081,7 @@ export type Database = {
           id?: string
           key?: string | null
           label: string
-          menu_key: string
+          menu_key?: string | null
         }
         Update: {
           created_at?: string
@@ -1089,7 +1089,7 @@ export type Database = {
           id?: string
           key?: string | null
           label?: string
-          menu_key?: string
+          menu_key?: string | null
         }
         Relationships: []
       }
@@ -1841,7 +1841,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           name: string | null
-          platform: string
+          platform: string | null
           sort_order: number | null
           url: string
         }
@@ -1852,7 +1852,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           name?: string | null
-          platform: string
+          platform?: string | null
           sort_order?: number | null
           url: string
         }
@@ -1863,7 +1863,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           name?: string | null
-          platform?: string
+          platform?: string | null
           sort_order?: number | null
           url?: string
         }
