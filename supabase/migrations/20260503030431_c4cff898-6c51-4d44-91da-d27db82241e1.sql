@@ -6,7 +6,12 @@ ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS total_orders integer NOT N
 ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS notes text;
 
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_cost numeric NOT NULL DEFAULT 0;
-UPDATE public.orders SET shipping_cost = COALESCE(shipping_charge, 0) WHERE shipping_cost = 0 AND shipping_charge IS NOT NULL;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'orders' AND column_name = 'shipping_charge') THEN
+    EXECUTE 'UPDATE public.orders SET shipping_cost = COALESCE(shipping_charge, 0) WHERE shipping_cost = 0 AND shipping_charge IS NOT NULL';
+  END IF;
+END $$;
 
 ALTER TABLE public.pending_payments ADD COLUMN IF NOT EXISTS reviewed_at timestamptz;
 ALTER TABLE public.pending_payments ADD COLUMN IF NOT EXISTS reviewed_by uuid;
