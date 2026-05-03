@@ -6,6 +6,7 @@ import type { Session } from "@supabase/supabase-js";
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [hasPanelAccess, setHasPanelAccess] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +18,7 @@ export function useAuth() {
 
       if (!s?.user) {
         setIsAdmin(false);
+        setHasPanelAccess(false);
         setLoading(false);
         return;
       }
@@ -26,6 +28,7 @@ export function useAuth() {
 
       if (!mounted) return;
       setIsAdmin(status?.isAdmin === true);
+      setHasPanelAccess(status?.hasPanelAccess === true || status?.isAdmin === true);
       setLoading(false);
     };
 
@@ -41,5 +44,5 @@ export function useAuth() {
     };
   }, []);
 
-  return { session, isAdmin, loading };
+  return { session, isAdmin, hasPanelAccess, loading };
 }
