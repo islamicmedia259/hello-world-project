@@ -4,6 +4,10 @@ type AdminAccessAction = "status" | "admin_exists" | "promote_first_admin";
 
 export type AdminAccessStatus = {
   isAdmin: boolean;
+  isModerator: boolean;
+  isStaff: boolean;
+  hasPanelAccess: boolean;
+  roles: string[];
   adminExists: boolean;
   menuKeys: string[];
 };
@@ -14,13 +18,13 @@ async function getAdminAccessFallback(action: AdminAccessAction): Promise<AdminA
   if (action === "admin_exists") {
     try {
       const { data } = await (supabase.rpc as any)("admin_exists");
-      return { isAdmin: false, adminExists: data === true, menuKeys: [] };
+      return { isAdmin: false, isModerator: false, isStaff: false, hasPanelAccess: false, roles: [], adminExists: data === true, menuKeys: [] };
     } catch (_error) {
-      return { isAdmin: false, adminExists: false, menuKeys: [] };
+      return { isAdmin: false, isModerator: false, isStaff: false, hasPanelAccess: false, roles: [], adminExists: false, menuKeys: [] };
     }
   }
 
-  if (!user) return { isAdmin: false, adminExists: false, menuKeys: [] };
+  if (!user) return { isAdmin: false, isModerator: false, isStaff: false, hasPanelAccess: false, roles: [], adminExists: false, menuKeys: [] };
 
   if (action === "promote_first_admin") {
     const { data } = await (supabase.rpc as any)("promote_first_admin");
@@ -36,8 +40,10 @@ async function getAdminAccessFallback(action: AdminAccessAction): Promise<AdminA
 
   const roleNames = (roles ?? []).map((row) => row.role).filter(Boolean);
   const isAdmin = roleNames.includes("admin");
+  const isModerator = roleNames.includes("moderator");
+  const isStaff = roleNames.includes("staff");
 
-  return { isAdmin, adminExists: isAdmin, menuKeys: [] };
+  return { isAdmin, isModerator, isStaff, hasPanelAccess: isAdmin || isModerator || isStaff, roles: roleNames, adminExists: isAdmin, menuKeys: [] };
 }
 
 export async function getAdminAccess(action: AdminAccessAction = "status"): Promise<AdminAccessStatus> {
@@ -52,6 +58,10 @@ export async function getAdminAccess(action: AdminAccessAction = "status"): Prom
 
     return {
       isAdmin: data.isAdmin === true,
+      isModerator: data.isModerator === true,
+      isStaff: data.isStaff === true,
+      hasPanelAccess: data.hasPanelAccess === true || data.isAdmin === true,
+      roles: Array.isArray(data.roles) ? data.roles : [],
       adminExists: data.adminExists === true,
       menuKeys: Array.isArray(data.menuKeys) ? data.menuKeys.filter(Boolean) : [],
     };
