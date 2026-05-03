@@ -31,7 +31,8 @@ ALTER TABLE public.categories ADD COLUMN IF NOT EXISTS show_on_home boolean DEFA
 ALTER TABLE public.banner_categories ADD COLUMN IF NOT EXISTS slide_direction text DEFAULT 'left';
 ALTER TABLE public.banner_categories ADD COLUMN IF NOT EXISTS slide_speed_seconds integer DEFAULT 5;
 ALTER TABLE public.banners ADD COLUMN IF NOT EXISTS category_id uuid;
-UPDATE public.banners SET category_id = banner_category_id WHERE category_id IS NULL;
+ALTER TABLE public.banners ADD COLUMN IF NOT EXISTS banner_category_id uuid;
+UPDATE public.banners SET category_id = COALESCE(category_id, banner_category_id) WHERE category_id IS NULL AND banner_category_id IS NOT NULL;
 
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS platform text;
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS script_code text;
