@@ -36,6 +36,8 @@ UPDATE public.banners SET category_id = COALESCE(category_id, banner_category_id
 
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS platform text;
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS script_code text;
+ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS provider text;
+ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS script text;
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS placement text DEFAULT 'head';
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS page_target text DEFAULT 'all';
 ALTER TABLE public.pixels ADD COLUMN IF NOT EXISTS custom_url text;
