@@ -198,11 +198,11 @@ export default function Header() {
       <nav className="hidden md:block bg-primary text-primary-foreground">
         <div className="container-page py-2.5 flex gap-6 text-sm font-medium overflow-x-auto">
           <Link to="/" className="hover:opacity-80">Home</Link>
-          <Link to="/shop?cat=hsc" className="hover:opacity-80">HSC</Link>
-          <Link to="/shop?cat=science" className="hover:opacity-80">Science</Link>
-          <Link to="/shop?cat=commerce" className="hover:opacity-80">Commerce</Link>
-          <Link to="/shop?cat=arts" className="hover:opacity-80">Arts</Link>
-          <Link to="/shop" className="hover:opacity-80">All Books</Link>
+          {navCategories.map((c) => (
+            <Link key={c.id} to={`/shop?cat=${c.slug ?? ""}`} className="hover:opacity-80 whitespace-nowrap">
+              {c.name}
+            </Link>
+          ))}
         </div>
       </nav>
 
