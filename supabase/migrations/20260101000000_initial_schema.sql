@@ -1,6 +1,8 @@
 -- Consolidated idempotent schema (auto-generated from live DB).
 -- Safe to run on empty or existing database.
 
+SET check_function_bodies = off;
+
 
 
 
